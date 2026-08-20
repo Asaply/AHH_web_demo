@@ -1,0 +1,193 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const projects = [
+  { title: 'Residencia Cumbres', category: 'RESIDENCIAL', badgeClass: 'bg-gold' },
+  { title: 'Remodelacion Integral – Cocina', category: 'REMODELACION', badgeClass: 'bg-navy-dark' },
+  { title: 'Plaza Comercial El Encino', category: 'COMERCIAL', badgeClass: 'bg-navy-dark' },
+  { title: 'Remodelacion Residencial – Sala', category: 'REMODELACION', badgeClass: 'bg-navy-dark' },
+  { title: 'Residencia San Francisco', category: 'RESIDENCIAL', badgeClass: 'bg-gold' },
+  { title: 'Oficinas Corporativas', category: 'COMERCIAL', badgeClass: 'bg-navy-dark' },
+];
+
+const tabs = ['TODOS', 'RESIDENCIAL', 'COMERCIAL', 'REMODELACION', 'DESARROLLO'];
+---
+
+<Layout title="Proyectos - AHH Construccion y Remodelacion" activePage="PROYECTOS">
+  <Header slot="header" activePage="PROYECTOS" />
+
+  <!-- Hero -->
+  <section class="bg-navy-dark pt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12">
+        <!-- Left content -->
+        <div class="lg:max-w-xl">
+          <!-- Breadcrumb -->
+          <nav class="flex items-center gap-2 text-sm mb-6">
+            <a href="/" class="text-gold hover:text-gold-light transition-colors">Inicio</a>
+            <span class="text-gray-500">&gt;</span>
+            <span class="text-gold">Proyectos</span>
+          </nav>
+
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight" style="font-family: var(--font-heading);">
+            PROYECTOS REALIZADOS
+          </h1>
+          <div class="gold-line mt-6 mb-6"></div>
+          <p class="text-gray-400 text-lg leading-relaxed">
+            Cada proyecto refleja nuestro compromiso con la calidad, el diseno y la funcionalidad.
+          </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 gap-6 lg:gap-8">
+          <!-- Stat 1 -->
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-lg border border-gold/30 flex items-center justify-center text-gold flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-white font-bold text-lg">+150</div>
+              <div class="text-gray-400 text-xs tracking-wider uppercase">Proyectos Realizados</div>
+            </div>
+          </div>
+
+          <!-- Stat 2 -->
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-lg border border-gold/30 flex items-center justify-center text-gold flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-white font-bold text-lg">+10</div>
+              <div class="text-gray-400 text-xs tracking-wider uppercase">Anos de Experiencia</div>
+            </div>
+          </div>
+
+          <!-- Stat 3 -->
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-lg border border-gold/30 flex items-center justify-center text-gold flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                <path d="M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-white font-bold text-lg leading-tight">Equipo</div>
+              <div class="text-gray-400 text-xs tracking-wider uppercase">Especializado</div>
+            </div>
+          </div>
+
+          <!-- Stat 4 -->
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-lg border border-gold/30 flex items-center justify-center text-gold flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-white font-bold text-lg leading-tight">Calidad</div>
+              <div class="text-gray-400 text-xs tracking-wider uppercase">Garantizada</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Tabs -->
+  <section class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-4">
+        <!-- Tabs -->
+        <div class="flex items-center gap-6 overflow-x-auto">
+          {tabs.map((tab, index) => (
+            <button
+              class={`text-sm tracking-wider font-medium py-3 whitespace-nowrap transition-colors ${
+                index === 0
+                  ? 'tab-active'
+                  : 'text-gray-400 hover:text-gray-700 border-b-2 border-transparent'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <!-- Sort dropdown -->
+        <div class="flex items-center gap-2 text-sm text-gray-500 flex-shrink-0">
+          <select class="border border-gray-300 rounded px-3 py-2 text-sm text-gray-600 bg-white focus:outline-none focus:border-gold">
+            <option>Mas recientes</option>
+            <option>Mas antiguos</option>
+            <option>A - Z</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Grid -->
+  <section class="bg-gray-50 py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map((project) => (
+          <div class="bg-white rounded-lg overflow-hidden card-hover">
+            <!-- Image placeholder -->
+            <div class="relative h-64 bg-gray-400 rounded-t">
+              <!-- Category badge -->
+              <span class={`absolute top-4 left-4 px-3 py-1 text-xs font-semibold tracking-wider text-white rounded ${project.badgeClass}`}>
+                {project.category}
+              </span>
+            </div>
+            <!-- Content -->
+            <div class="p-6">
+              <h3 class="text-lg font-bold text-navy-dark mb-2">{project.title}</h3>
+              <div class="flex items-center gap-1 text-gray-400 text-sm mb-4">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gray-400">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Chihuahua, Chihuahua
+              </div>
+              <a href="#" class="inline-flex items-center gap-2 text-gold text-sm font-semibold tracking-wider hover:text-gold-dark transition-colors">
+                VER PROYECTO
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="bg-navy-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4" style="font-family: var(--font-heading);">
+        TIENES UN PROYECTO EN MENTE?
+      </h2>
+      <p class="text-gray-400 text-lg mb-8">
+        Hablemos de como hacerlo realidad.
+      </p>
+      <a href="/contacto" class="btn-gold text-xs tracking-widest">
+        COTIZA TU PROYECTO
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>

@@ -1,0 +1,272 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="AHH Construcción y Remodelación" activePage="INICIO">
+  <Header slot="header" activePage="INICIO" />
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[90vh] flex items-center bg-navy-dark pt-20">
+    <!-- Dark gradient background -->
+    <div class="absolute inset-0 bg-gradient-to-br from-navy-dark via-navy to-navy-dark"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-navy-dark/90 via-navy-dark/60 to-transparent"></div>
+    <!-- Subtle pattern overlay -->
+    <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 25% 50%, rgba(200,150,90,0.3) 0%, transparent 50%), radial-gradient(circle at 75% 30%, rgba(200,150,90,0.15) 0%, transparent 40%);"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="max-w-3xl">
+        <!-- Breadcrumb-style gold text -->
+        <p class="text-gold text-sm tracking-[0.3em] uppercase mb-6 flex items-center gap-3">
+          <span>DISEÑAMOS</span>
+          <span class="w-1 h-1 bg-gold rounded-full"></span>
+          <span>CONSTRUIMOS</span>
+          <span class="w-1 h-1 bg-gold rounded-full"></span>
+          <span>TRANSFORMAMOS</span>
+        </p>
+
+        <!-- Main heading -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6" style="font-family: var(--font-heading);">
+          CONSTRUIMOS CONFIANZA,<br>
+          <span class="italic text-gold">CREAMOS VALOR.</span>
+        </h1>
+
+        <!-- Subtext -->
+        <p class="text-gray-400 text-lg sm:text-xl leading-relaxed mb-10 max-w-2xl">
+          Combinamos diseño, calidad y funcionalidad para crear espacios que superan expectativas. Más de 15 años construyendo proyectos residenciales y comerciales en Chihuahua.
+        </p>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="/propiedades" class="btn-gold text-xs tracking-widest">
+            VER PROPIEDADES EN VENTA
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="/contacto" class="btn-outline-white text-xs tracking-widest">
+            COTIZA TU PROYECTO
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom gradient fade -->
+    <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="bg-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section header -->
+      <div class="text-center mb-16">
+        <p class="text-gold text-sm tracking-[0.3em] uppercase mb-3">NUESTROS SERVICIOS</p>
+        <h2 class="text-3xl sm:text-4xl font-bold text-navy-dark" style="font-family: var(--font-heading);">Lo que hacemos</h2>
+        <div class="gold-line mx-auto mt-4"></div>
+      </div>
+
+      <!-- 4 service cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Construcción -->
+        <div class="text-center p-6 group">
+          <div class="w-16 h-16 mx-auto mb-5 border-2 border-gold rounded-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition-all duration-300">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <h3 class="text-sm font-bold tracking-wider text-navy-dark mb-3">CONSTRUCCIÓN</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">Proyectos residenciales y comerciales de alta calidad, de principio a fin.</p>
+        </div>
+
+        <!-- Remodelación -->
+        <div class="text-center p-6 group">
+          <div class="w-16 h-16 mx-auto mb-5 border-2 border-gold rounded-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition-all duration-300">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <h3 class="text-sm font-bold tracking-wider text-navy-dark mb-3">REMODELACIÓN</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">Transformamos espacios para que vivas mejor.</p>
+        </div>
+
+        <!-- Desarrollo Inmobiliario -->
+        <div class="text-center p-6 group">
+          <div class="w-16 h-16 mx-auto mb-5 border-2 border-gold rounded-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition-all duration-300">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="1" y="6" width="10" height="16" rx="1"/>
+              <rect x="13" y="2" width="10" height="20" rx="1"/>
+              <line x1="5" y1="10" x2="7" y2="10"/>
+              <line x1="5" y1="14" x2="7" y2="14"/>
+              <line x1="5" y1="18" x2="7" y2="18"/>
+              <line x1="17" y1="6" x2="19" y2="6"/>
+              <line x1="17" y1="10" x2="19" y2="10"/>
+              <line x1="17" y1="14" x2="19" y2="14"/>
+              <line x1="17" y1="18" x2="19" y2="18"/>
+            </svg>
+          </div>
+          <h3 class="text-sm font-bold tracking-wider text-navy-dark mb-3">DESARROLLO INMOBILIARIO</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">Creamos comunidades y oportunidades de inversión.</p>
+        </div>
+
+        <!-- Diseño y Planificación -->
+        <div class="text-center p-6 group">
+          <div class="w-16 h-16 mx-auto mb-5 border-2 border-gold rounded-lg flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition-all duration-300">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+            </svg>
+          </div>
+          <h3 class="text-sm font-bold tracking-wider text-navy-dark mb-3">DISEÑO Y PLANIFICACIÓN</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">Planeación inteligente para proyectos funcionales y rentables.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Properties Section -->
+  <section class="bg-cream py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section header -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12">
+        <div>
+          <p class="text-gold text-sm tracking-[0.3em] uppercase mb-3">PROPIEDADES EN VENTA</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-navy-dark" style="font-family: var(--font-heading);">Encuentra tu próximo hogar</h2>
+        </div>
+        <a href="/propiedades" class="text-gold text-sm font-semibold tracking-wider hover:text-gold-dark transition-colors mt-4 sm:mt-0">
+          VER TODAS LAS PROPIEDADES &rarr;
+        </a>
+      </div>
+
+      <!-- Property cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Property 1 -->
+        <div class="bg-white rounded-lg overflow-hidden card-hover shadow-sm">
+          <div class="relative h-64 bg-gray-700 rounded-t-lg">
+            <div class="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+            <span class="absolute top-4 left-4 bg-gold text-white text-xs font-bold tracking-wider px-3 py-1">EN VENTA</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-bold text-navy-dark mb-2" style="font-family: var(--font-heading);">RESIDENCIA CUMBRES</h3>
+            <p class="text-gray-500 text-sm flex items-center gap-1 mb-4">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gold"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Cumbres de Majalca, Chihuahua
+            </p>
+            <div class="flex items-center gap-4 text-xs text-gray-500 mb-4 border-t border-gray-100 pt-4">
+              <span class="flex items-center gap-1">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7v11a2 2 0 002 2h14a2 2 0 002-2V7"/><path d="M1 7h22"/><path d="M6 7V4a1 1 0 011-1h4a1 1 0 011 1v3"/></svg>
+                3 Rec.
+              </span>
+              <span class="flex items-center gap-1">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16a1 1 0 011 1v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a1 1 0 011-1z"/><path d="M6 12V5a2 2 0 012-2h3a2 2 0 012 2v7"/></svg>
+                3.5 Baños
+              </span>
+              <span>320 m²</span>
+              <span>3 Est.</span>
+            </div>
+            <p class="text-gold text-xl font-bold">$6,950,000 <span class="text-sm font-normal">MXN</span></p>
+          </div>
+        </div>
+
+        <!-- Property 2 -->
+        <div class="bg-white rounded-lg overflow-hidden card-hover shadow-sm">
+          <div class="relative h-64 bg-gray-700 rounded-t-lg">
+            <div class="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+            <span class="absolute top-4 left-4 bg-gold text-white text-xs font-bold tracking-wider px-3 py-1">EN VENTA</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-bold text-navy-dark mb-2" style="font-family: var(--font-heading);">RESIDENCIA CORDILLERA</h3>
+            <p class="text-gray-500 text-sm flex items-center gap-1 mb-4">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gold"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Cordilleras, Chihuahua
+            </p>
+            <div class="flex items-center gap-4 text-xs text-gray-500 mb-4 border-t border-gray-100 pt-4">
+              <span class="flex items-center gap-1">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7v11a2 2 0 002 2h14a2 2 0 002-2V7"/><path d="M1 7h22"/><path d="M6 7V4a1 1 0 011-1h4a1 1 0 011 1v3"/></svg>
+                4 Rec.
+              </span>
+              <span class="flex items-center gap-1">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16a1 1 0 011 1v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a1 1 0 011-1z"/><path d="M6 12V5a2 2 0 012-2h3a2 2 0 012 2v7"/></svg>
+                4 Baños
+              </span>
+              <span>420 m²</span>
+              <span>3 Est.</span>
+            </div>
+            <p class="text-gold text-xl font-bold">$8,750,000 <span class="text-sm font-normal">MXN</span></p>
+          </div>
+        </div>
+
+        <!-- Property 3 -->
+        <div class="bg-white rounded-lg overflow-hidden card-hover shadow-sm">
+          <div class="relative h-64 bg-gray-700 rounded-t-lg">
+            <div class="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+            <span class="absolute top-4 left-4 bg-gold text-white text-xs font-bold tracking-wider px-3 py-1">EN VENTA</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-bold text-navy-dark mb-2" style="font-family: var(--font-heading);">RESIDENCIA SAN FRANCISCO</h3>
+            <p class="text-gray-500 text-sm flex items-center gap-1 mb-4">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gold"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              San Francisco, Chihuahua
+            </p>
+            <div class="flex items-center gap-4 text-xs text-gray-500 mb-4 border-t border-gray-100 pt-4">
+              <span class="flex items-center gap-1">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7v11a2 2 0 002 2h14a2 2 0 002-2V7"/><path d="M1 7h22"/><path d="M6 7V4a1 1 0 011-1h4a1 1 0 011 1v3"/></svg>
+                3 Rec.
+              </span>
+              <span class="flex items-center gap-1">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16a1 1 0 011 1v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a1 1 0 011-1z"/><path d="M6 12V5a2 2 0 012-2h3a2 2 0 012 2v7"/></svg>
+                3 Baños
+              </span>
+              <span>280 m²</span>
+              <span>2 Est.</span>
+            </div>
+            <p class="text-gold text-xl font-bold">$5,950,000 <span class="text-sm font-normal">MXN</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="text-center mt-12">
+        <a href="/propiedades" class="btn-outline text-xs tracking-widest">
+          VER TODAS LAS PROPIEDADES
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-navy-dark py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4" style="font-family: var(--font-heading);">
+        ¿TIENES UN PROYECTO EN MENTE?
+      </h2>
+      <p class="text-gold text-lg sm:text-xl mb-10">
+        Nuestro equipo está listo para ayudarte a hacerlo realidad.
+      </p>
+
+      <!-- Feature badges -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-10">
+        <div class="flex items-center gap-2 text-gray-300 text-sm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gold"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Asesoría personalizada
+        </div>
+        <div class="flex items-center gap-2 text-gray-300 text-sm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gold"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Cotización sin compromiso
+        </div>
+        <div class="flex items-center gap-2 text-gray-300 text-sm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gold"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Calidad garantizada
+        </div>
+      </div>
+
+      <a href="/contacto" class="btn-gold text-xs tracking-widest">
+        COTIZA TU PROYECTO
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>

@@ -1,0 +1,248 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Servicios - AHH Construcción y Remodelación" activePage="SERVICIOS">
+  <Header slot="header" activePage="SERVICIOS" />
+
+  <!-- Hero -->
+  <section class="bg-navy-dark pt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="flex items-center gap-2 text-gold text-xs tracking-widest font-semibold mb-6">
+            <a href="/" class="hover:underline">INICIO</a>
+            <span>/</span>
+            <span>SERVICIOS</span>
+          </div>
+          <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-6" style="font-family: var(--font-heading);">
+            NUESTROS SERVICIOS
+          </h1>
+          <div class="gold-line mb-6"></div>
+          <p class="text-gray-400 text-lg leading-relaxed max-w-lg">
+            Soluciones integrales de construcción y desarrollo con calidad, diseño y funcionalidad.
+          </p>
+        </div>
+        <div class="min-h-[400px] rounded-lg bg-gradient-to-br from-navy-light to-navy-dark"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Grid -->
+  <section class="bg-white py-16 lg:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        <!-- Card 01 - Construcción -->
+        <div class="bg-white rounded-lg shadow-md card-hover overflow-hidden">
+          <div class="h-56 bg-gray-300 rounded-t-lg"></div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-2xl font-bold text-gold" style="font-family: var(--font-heading);">01</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-navy-dark mb-3 tracking-wide">CONSTRUCCIÓN</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-4">
+              Construimos proyectos residenciales, comerciales e industriales con los más altos estándares de calidad y eficiencia.
+            </p>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Planeación y proyecto arquitectónico
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Gestión de permisos
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Construcción llave en mano
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Supervisión y control de calidad
+              </li>
+            </ul>
+            <a href="#" class="text-gold text-sm font-semibold tracking-wider hover:text-gold-dark transition-colors inline-flex items-center gap-1">
+              CONOCE MÁS
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 02 - Remodelación -->
+        <div class="bg-white rounded-lg shadow-md card-hover overflow-hidden">
+          <div class="h-56 bg-gray-300 rounded-t-lg"></div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-2xl font-bold text-gold" style="font-family: var(--font-heading);">02</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-navy-dark mb-3 tracking-wide">REMODELACIÓN</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-4">
+              Transformamos espacios existentes con soluciones modernas que maximizan funcionalidad y estética.
+            </p>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Remodelación integral
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Actualización de acabados
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Ampliaciones y redistribución
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Mejoras funcionales y estéticas
+              </li>
+            </ul>
+            <a href="#" class="text-gold text-sm font-semibold tracking-wider hover:text-gold-dark transition-colors inline-flex items-center gap-1">
+              CONOCE MÁS
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 03 - Desarrollo Inmobiliario -->
+        <div class="bg-white rounded-lg shadow-md card-hover overflow-hidden">
+          <div class="h-56 bg-gray-300 rounded-t-lg"></div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-2xl font-bold text-gold" style="font-family: var(--font-heading);">03</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2v-4"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-navy-dark mb-3 tracking-wide">DESARROLLO INMOBILIARIO</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-4">
+              Desarrollamos proyectos inmobiliarios desde la conceptualización hasta la comercialización exitosa.
+            </p>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Análisis de viabilidad
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Gestión y desarrollo de proyectos
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Urbanización y redificación
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Comercialización de propiedades
+              </li>
+            </ul>
+            <a href="#" class="text-gold text-sm font-semibold tracking-wider hover:text-gold-dark transition-colors inline-flex items-center gap-1">
+              CONOCE MÁS
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 04 - Diseño y Planificación -->
+        <div class="bg-white rounded-lg shadow-md card-hover overflow-hidden">
+          <div class="h-56 bg-gray-300 rounded-t-lg"></div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-2xl font-bold text-gold" style="font-family: var(--font-heading);">04</span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-navy-dark mb-3 tracking-wide">DISEÑO Y PLANIFICACIÓN</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-4">
+              Creamos diseños innovadores y planes detallados que materializan la visión de cada cliente.
+            </p>
+            <ul class="space-y-2 mb-6">
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Diseño arquitectónico
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Renderizado 3D
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Presupuestos y programación
+              </li>
+              <li class="flex items-start gap-2 text-sm text-gray-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 flex-shrink-0"></span>
+                Asesoría personalizada
+              </li>
+            </ul>
+            <a href="#" class="text-gold text-sm font-semibold tracking-wider hover:text-gold-dark transition-colors inline-flex items-center gap-1">
+              CONOCE MÁS
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="bg-navy-dark py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4" style="font-family: var(--font-heading);">
+          ¿TIENES UN PROYECTO EN MENTE?
+        </h2>
+        <div class="gold-line mx-auto mb-4"></div>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+          Contáctanos y hagamos realidad tu visión. Nuestro equipo está listo para asesorarte en cada paso del proceso.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="flex items-center gap-3 bg-navy-light/50 rounded-lg px-5 py-4">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold flex-shrink-0">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+          <span class="text-white text-sm font-medium">Asesoría personalizada</span>
+        </div>
+        <div class="flex items-center gap-3 bg-navy-light/50 rounded-lg px-5 py-4">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold flex-shrink-0">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          <span class="text-white text-sm font-medium">Cotización sin compromiso</span>
+        </div>
+        <div class="flex items-center gap-3 bg-navy-light/50 rounded-lg px-5 py-4">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold flex-shrink-0">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <span class="text-white text-sm font-medium">Calidad garantizada</span>
+        </div>
+        <div class="flex items-center gap-3 bg-navy-light/50 rounded-lg px-5 py-4">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold flex-shrink-0">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <span class="text-white text-sm font-medium">Entrega en tiempo</span>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a href="/contacto" class="btn-gold text-xs tracking-widest">
+          COTIZA TU PROYECTO
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>

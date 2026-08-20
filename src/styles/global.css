@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #C8965A;
+  --color-gold-light: #D4A76A;
+  --color-gold-dark: #B07A3A;
+  --color-navy: #1A1D2E;
+  --color-navy-light: #252840;
+  --color-navy-dark: #0F1119;
+  --color-cream: #F5F0EB;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-sans);
+    color: #333;
+    background: #fff;
+  }
+}
+
+.hero-overlay {
+  background: linear-gradient(90deg, rgba(15,17,25,0.85) 0%, rgba(15,17,25,0.4) 60%, rgba(15,17,25,0.1) 100%);
+}
+
+.gold-line {
+  width: 60px;
+  height: 3px;
+  background: var(--color-gold);
+}
+
+.card-hover {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: var(--color-gold);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  transition: background 0.3s;
+}
+.btn-gold:hover {
+  background: var(--color-gold-dark);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border: 1.5px solid var(--color-gold);
+  color: var(--color-gold);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s;
+}
+.btn-outline:hover {
+  background: var(--color-gold);
+  color: #fff;
+}
+
+.btn-outline-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border: 1.5px solid #fff;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s;
+}
+.btn-outline-white:hover {
+  background: #fff;
+  color: var(--color-navy);
+}
+
+.tab-active {
+  color: var(--color-gold);
+  border-bottom: 2px solid var(--color-gold);
+}
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 50;
+  width: 56px;
+  height: 56px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.3s;
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
