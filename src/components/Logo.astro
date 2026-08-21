@@ -1,0 +1,26 @@
+---
+interface Props {
+  variant?: 'light' | 'dark';
+  size?: 'sm' | 'md';
+  href?: string;
+}
+const { variant = 'light', size = 'md', href = '/' } = Astro.props;
+const mono = variant === 'light' ? 'text-white' : 'text-dark';
+const caption = variant === 'light' ? 'text-white/70' : 'text-dark/60';
+const monoSize = size === 'sm' ? 'text-2xl' : 'text-[2rem]';
+const capSize = size === 'sm' ? 'text-[7px]' : 'text-[8px]';
+---
+
+<a href={href} class="inline-flex flex-col leading-none group" aria-label="AHH Construcción y Remodelación">
+  <span class={`display ${monoSize} ${mono} tracking-[-0.02em] flex items-baseline`}>
+    <span>A</span>
+    <span class="relative">
+      H
+      <span class="absolute left-0 right-0 top-1/2 h-[2px] bg-gold -translate-y-1/2"></span>
+    </span>
+    <span class="text-gold">H</span>
+  </span>
+  <span class={`${capSize} ${caption} font-medium tracking-[0.22em] uppercase mt-1.5 whitespace-nowrap`}>
+    Construcción y Remodelación
+  </span>
+</a>

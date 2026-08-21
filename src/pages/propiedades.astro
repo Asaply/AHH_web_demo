@@ -2,208 +2,89 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+import PropertyCard from '../components/PropertyCard.astro';
+import { properties } from '../data/site';
 
-const properties = [
-  {
-    title: 'RESIDENCIA CUMBRES',
-    location: 'Cumbres II, Chihuahua',
-    bedrooms: 3,
-    bathrooms: '3.5',
-    area: 230,
-    parking: 2,
-    price: '$6,950,000 MXN',
-  },
-  {
-    title: 'RESIDENCIA CORDILLERA',
-    location: 'Cordillera Residencial, Chihuahua',
-    bedrooms: 4,
-    bathrooms: '4.5',
-    area: 280,
-    parking: 2,
-    price: '$8,750,000 MXN',
-  },
-  {
-    title: 'RESIDENCIA SAN FRANCISCO',
-    location: 'San Francisco, Chihuahua',
-    bedrooms: 3,
-    bathrooms: '3',
-    area: 210,
-    parking: 2,
-    price: '$5,950,000 MXN',
-  },
-];
+const delays = ['', 'reveal-delay-1', 'reveal-delay-2'];
 ---
 
-<Layout title="Propiedades - AHH Construcción y Remodelación" activePage="PROPIEDADES">
-  <Header slot="header" activePage="PROPIEDADES" />
+<Layout title="Propiedades en venta — AHH Construcción">
+  <Header slot="header" activePage="Propiedades" />
 
   <!-- Hero -->
-  <section class="relative pt-20 bg-navy-dark overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-navy-dark via-navy to-navy-dark"></div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-        <div>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight" style="font-family: var(--font-heading);">
-            PROPIEDADES EN VENTA
-          </h1>
-          <div class="gold-line mt-4 mb-6"></div>
-          <p class="text-gray-400 text-lg max-w-2xl leading-relaxed">
+  <section class="hero">
+    <div class="hero-media" style="background-image:url('/img/hero-propiedades.jpg')"></div>
+    <div class="relative max-w-[88rem] mx-auto px-6 lg:px-10 py-20 lg:py-24">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
+        <div class="max-w-2xl">
+          <h1 class="reveal display display-lg text-white mb-6">Propiedades en venta</h1>
+          <div class="reveal reveal-delay-1 gold-line mb-8"></div>
+          <p class="reveal reveal-delay-2 text-gray-300 text-base lg:text-lg leading-relaxed">
             Encuentra tu próximo hogar o invierte en propiedades con ubicación estratégica, diseño funcional y alta plusvalía.
           </p>
         </div>
-        <div class="flex-shrink-0 bg-navy-light/60 border border-gray-700 rounded-lg px-6 py-4 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
-              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-          </div>
+
+        <div class="reveal reveal-delay-3 bg-dark/85 border border-white/10 px-8 py-6 flex items-center gap-5 self-start lg:self-auto">
+          <Icon name="home" size={40} class="text-gold shrink-0" stroke={1.2} />
           <div>
-            <span class="text-white font-bold text-lg">3</span>
-            <span class="text-gray-400 text-sm ml-1">PROPIEDADES DISPONIBLES</span>
+            <p class="display text-xl text-white leading-tight">{properties.length} propiedades</p>
+            <p class="display text-xl text-white/80 leading-tight">disponibles</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Filter Section -->
-  <section class="bg-white py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+  <!-- Listing -->
+  <section class="bg-surface py-16 lg:py-20">
+    <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
+      <div class="reveal flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
         <div>
-          <span class="text-gold text-sm font-semibold tracking-widest uppercase">NUESTRAS PROPIEDADES</span>
-          <h2 class="text-2xl md:text-3xl font-bold text-navy-dark mt-2" style="font-family: var(--font-heading);">
-            Encuentra la opción ideal para ti
-          </h2>
+          <p class="eyebrow mb-4">Nuestras propiedades</p>
+          <h2 class="heading">Encuentra la opción ideal para ti</h2>
         </div>
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <select class="border border-gray-300 rounded px-4 py-3 text-sm text-gray-600 bg-white focus:outline-none focus:border-gold min-w-[200px]">
-            <option>Todas las ubicaciones</option>
-            <option>Cumbres II</option>
-            <option>Cordillera Residencial</option>
-            <option>San Francisco</option>
+
+        <form class="flex flex-col sm:flex-row gap-4 shrink-0">
+          <select class="field !w-auto min-w-[13rem] text-gray-600" aria-label="Ubicación">
+            <option value="">Todas las ubicaciones</option>
+            <option value="cumbres">Cumbres II</option>
+            <option value="cordillera">Cordillera Residencial</option>
+            <option value="san-francisco">San Francisco</option>
           </select>
-          <select class="border border-gray-300 rounded px-4 py-3 text-sm text-gray-600 bg-white focus:outline-none focus:border-gold min-w-[200px]">
-            <option>Tipo de propiedad</option>
-            <option>Residencia</option>
-            <option>Departamento</option>
-            <option>Terreno</option>
+          <select class="field !w-auto min-w-[13rem] text-gray-600" aria-label="Tipo de propiedad">
+            <option value="">Tipo de propiedad</option>
+            <option value="casa">Casa</option>
+            <option value="terreno">Terreno</option>
+            <option value="local">Local comercial</option>
           </select>
-          <button class="btn-outline text-xs tracking-widest">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-            </svg>
-            FILTRAR
+          <button type="submit" class="btn-outline">
+            Filtrar
+            <Icon name="filter" size={16} stroke={2} />
           </button>
-        </div>
+        </form>
       </div>
-    </div>
-  </section>
 
-  <!-- Properties Grid -->
-  <section class="bg-gray-50 py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {properties.map((prop) => (
-          <div class="card-hover bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100">
-            <!-- Image placeholder -->
-            <div class="relative h-72 bg-gray-300">
-              <span class="absolute top-4 left-4 bg-gold text-white text-xs font-bold tracking-wider px-3 py-1.5 rounded">
-                EN VENTA
-              </span>
-            </div>
+        {properties.map((p, i) => <PropertyCard property={p} variant="full" delay={delays[i]} />)}
+      </div>
 
-            <div class="p-6">
-              <!-- Title -->
-              <h3 class="text-lg font-bold text-navy-dark uppercase tracking-wide">
-                {prop.title}
-              </h3>
-
-              <!-- Location -->
-              <div class="flex items-center gap-2 mt-2 text-gray-500 text-sm">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gold flex-shrink-0">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
-                {prop.location}
-              </div>
-
-              <!-- Features row -->
-              <div class="flex items-center gap-4 mt-4 pt-4 border-t border-gray-100 text-sm text-gray-600">
-                <!-- Bedrooms -->
-                <div class="flex items-center gap-1.5" title="Recámaras">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
-                    <path d="M3 7v11a2 2 0 002 2h14a2 2 0 002-2V7"/>
-                    <path d="M21 11H3V7a2 2 0 012-2h14a2 2 0 012 2v4z"/>
-                    <path d="M7 11V7"/>
-                    <path d="M17 11V7"/>
-                  </svg>
-                  <span>{prop.bedrooms}</span>
-                </div>
-
-                <!-- Bathrooms -->
-                <div class="flex items-center gap-1.5" title="Baños">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
-                    <path d="M4 12h16a1 1 0 011 1v3a4 4 0 01-4 4H7a4 4 0 01-4-4v-3a1 1 0 011-1z"/>
-                    <path d="M6 12V5a2 2 0 012-2h1a2 2 0 012 2v1"/>
-                  </svg>
-                  <span>{prop.bathrooms}</span>
-                </div>
-
-                <!-- Area -->
-                <div class="flex items-center gap-1.5" title="Superficie">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
-                    <rect x="3" y="3" width="18" height="18" rx="1"/>
-                    <path d="M3 9h18"/>
-                    <path d="M9 3v18"/>
-                  </svg>
-                  <span>{prop.area}m²</span>
-                </div>
-
-                <!-- Parking -->
-                <div class="flex items-center gap-1.5" title="Estacionamiento">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-gold">
-                    <rect x="1" y="3" width="22" height="18" rx="2"/>
-                    <path d="M9 17V7h4a3 3 0 010 6H9"/>
-                  </svg>
-                  <span>{prop.parking}</span>
-                </div>
-              </div>
-
-              <!-- Price -->
-              <div class="mt-4 pt-4 border-t border-gray-100">
-                <span class="text-sm text-gray-500">Precio:</span>
-                <span class="text-xl font-bold text-gold ml-2">{prop.price}</span>
-              </div>
-
-              <!-- CTA button -->
-              <a href="#" class="btn-outline text-xs tracking-widest mt-5 w-full justify-center">
-                VER DETALLES
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
-            </div>
-          </div>
-        ))}
+      <!-- Inline CTA -->
+      <div class="reveal bg-cream-2 border border-black/6 mt-10 px-8 py-7 flex flex-col lg:flex-row items-center gap-6">
+        <div class="w-14 h-14 rounded-full bg-dark flex items-center justify-center shrink-0">
+          <Icon name="handshake" size={26} class="text-gold" stroke={1.3} />
+        </div>
+        <div class="flex-1 text-center lg:text-left">
+          <h3 class="display display-sm mb-1">¿No encuentras lo que buscas?</h3>
+          <p class="text-sm text-gray-600">Te ayudamos a encontrar la propiedad ideal o a desarrollar un proyecto a la medida.</p>
+        </div>
+        <a href="/contacto" class="btn-dark shrink-0">
+          Hablemos de tu proyecto
+          <Icon name="arrow" size={16} stroke={2} />
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- Help Banner -->
-  <section class="bg-cream py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-2xl md:text-3xl font-bold text-navy-dark" style="font-family: var(--font-heading);">
-        ¿No encuentras lo que buscas?
-      </h2>
-      <p class="text-gray-600 mt-4 max-w-xl mx-auto leading-relaxed">
-        Te ayudamos a encontrar la propiedad ideal o a desarrollar un proyecto a la medida.
-      </p>
-      <a href="/contacto" class="btn-outline text-xs tracking-widest mt-8 inline-flex">
-        HABLEMOS DE TU PROYECTO
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <Footer slot="footer" />
+  <Footer slot="footer" variant="compact" />
 </Layout>
