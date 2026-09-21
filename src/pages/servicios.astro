@@ -3,35 +3,37 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
-import { services, features } from '../data/site';
+import { services, catalog, features } from '../data/site';
 
 const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
+const totalConcepts = catalog.reduce((n, c) => n + c.items.length, 0);
 ---
 
-<Layout title="Servicios — AHH Construcción">
+<Layout title="Servicios — AHH Construcción y Remodelación">
   <Header slot="header" activePage="Servicios" />
 
   <!-- Hero -->
-  <section class="hero">
+  <section data-nav-theme="dark" class="hero">
     <div class="hero-media" style="background-image:url('/img/hero-servicios.jpg')"></div>
     <div class="relative max-w-[88rem] mx-auto px-6 lg:px-10 py-20 lg:py-24">
       <nav class="reveal flex items-center gap-2 text-xs tracking-[0.16em] uppercase mb-6">
         <a href="/" class="text-white/70 hover:text-white transition-colors">Inicio</a>
         <span class="text-white/30">/</span>
-        <span class="text-gold">Servicios</span>
+        <span class="text-sand">Servicios</span>
       </nav>
 
       <h1 class="reveal reveal-delay-1 display display-lg text-white mb-6">Nuestros servicios</h1>
-      <div class="reveal reveal-delay-1 gold-line mb-8"></div>
+      <div class="reveal reveal-delay-1 rule mb-8"></div>
 
       <p class="reveal reveal-delay-2 text-gray-300 text-base lg:text-lg leading-relaxed max-w-md">
-        Soluciones integrales de construcción y desarrollo con calidad, diseño y funcionalidad.
+        Obra nueva, remodelación, ampliaciones y mantenimiento. {totalConcepts} conceptos de
+        construcción bajo un mismo contrato.
       </p>
     </div>
   </section>
 
   <!-- Service cards -->
-  <section class="bg-surface py-16 lg:py-20">
+  <section class="bg-bone py-16 lg:py-20">
     <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-7">
         {services.map((s, i) => (
@@ -40,8 +42,8 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
 
             <div class="p-7 flex flex-col flex-1">
               <div class="flex items-center gap-3 mb-4">
-                <Icon name={s.icon} size={30} class="text-gold shrink-0" stroke={1.2} />
-                <span class="display text-xl text-gold">{s.num}</span>
+                <Icon name={s.icon} size={30} class="text-accent-deep shrink-0" stroke={1.2} />
+                <span class="display text-xl text-accent-deep">{s.num}</span>
               </div>
 
               <h3 class="display display-sm mb-4">{s.title}</h3>
@@ -51,14 +53,14 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
               <ul class="check-list space-y-3 mb-8">
                 {s.points.map(point => (
                   <li>
-                    <Icon name="check" size={15} class="text-gold shrink-0 mt-0.5" stroke={2.2} />
+                    <Icon name="check" size={15} class="text-accent-deep shrink-0 mt-0.5" stroke={2.2} />
                     {point}
                   </li>
                 ))}
               </ul>
 
-              <a href="/contacto" class="link-gold mt-auto">
-                Conoce más
+              <a href="/contacto" class="link-accent mt-auto">
+                Cotizar este servicio
                 <Icon name="arrow" size={15} stroke={2} />
               </a>
             </div>
@@ -68,15 +70,47 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
     </div>
   </section>
 
+  <!-- Catálogo completo -->
+  <section class="section-bone py-16 lg:py-20">
+    <div class="max-w-[72rem] mx-auto px-6 lg:px-10">
+      <div class="reveal mb-10">
+        <p class="eyebrow mb-4">Catálogo completo</p>
+        <h2 class="heading mb-4">Todo lo que podemos construir</h2>
+        <p class="text-gray-600 leading-relaxed max-w-2xl">
+          {catalog.length} categorías y {totalConcepts} conceptos. Si lo que buscas no aparece aquí,
+          pregúntanos: es probable que también lo hagamos.
+        </p>
+      </div>
+
+      <div class="reveal divide-y divide-black/10 border-y border-black/10">
+        {catalog.map(cat => (
+          <details class="group">
+            <summary class="flex items-center gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+              <span class="display text-sm text-accent-deep w-7 shrink-0">{cat.num}</span>
+              <span class="display text-[17px] flex-1">{cat.title}</span>
+              <span class="text-xs text-gray-500 tabular-nums">{cat.items.length}</span>
+              <Icon name="chevron" size={18} class="text-gray-500 shrink-0 transition-transform duration-300 group-open:rotate-180" stroke={2} />
+            </summary>
+            <ul class="pb-6 pl-11 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
+              {cat.items.map(item => (
+                <li class="text-[13px] text-gray-600 leading-relaxed">{item}</li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- CTA band -->
-  <section class="hero">
+  <section data-nav-theme="dark" class="hero">
     <div class="hero-media dim" style="background-image:url('/img/cta-band.jpg')"></div>
     <div class="relative max-w-[88rem] mx-auto px-6 lg:px-10 py-14 lg:py-16">
       <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-12">
 
         <div class="lg:w-1/4 text-center lg:text-left">
           <h2 class="display display-md text-white mb-3">¿Tienes un proyecto<br class="hidden lg:block"> en mente?</h2>
-          <p class="text-gold text-sm">Estamos listos para hacerlo realidad.</p>
+          <p class="text-sand text-sm">Vamos a verlo contigo antes de cotizar.</p>
         </div>
 
         <div class="hidden lg:block w-px self-stretch bg-white/15"></div>
@@ -84,8 +118,8 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
         <div class="lg:flex-1 grid grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map(f => (
             <div class="text-center">
-              <Icon name={f.icon} size={30} class="text-gold mx-auto mb-4" stroke={1.2} />
-              <p class="display text-[11px] text-white tracking-[0.1em] leading-snug">{f.title}</p>
+              <Icon name={f.icon} size={30} class="text-sand mx-auto mb-4" stroke={1.2} />
+              <p class="text-[13px] text-white leading-snug">{f.title}</p>
             </div>
           ))}
         </div>

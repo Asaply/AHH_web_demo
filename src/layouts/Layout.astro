@@ -14,14 +14,27 @@ const { title, description = 'AHH Construcción y Remodelación — Construcció
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#182028" />
     <title>{title}</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AHH Construcción y Remodelación" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+    <!-- Marca que hay JS antes de pintar: las animaciones de entrada parten de
+         opacity:0, así que sin esta clase el contenido queda invisible si el
+         script no corre. -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <ClientRouter />
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body class="antialiased overflow-x-hidden">
     <slot name="header" />
@@ -32,12 +45,24 @@ const { title, description = 'AHH Construcción y Remodelación — Construcció
 
     <script>
       function initPage() {
-        // Mobile menu toggle
+        // Mobile menu overlay
         const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (menuBtn && mobileMenu && !menuBtn.dataset.bound) {
+        const overlay = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('mobile-menu-close');
+        if (menuBtn && overlay && !menuBtn.dataset.bound) {
           menuBtn.dataset.bound = 'true';
-          menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+          const setOpen = (open: boolean) => {
+            overlay.classList.toggle('open', open);
+            overlay.setAttribute('aria-hidden', String(!open));
+            menuBtn.setAttribute('aria-expanded', String(open));
+            document.body.style.overflow = open ? 'hidden' : '';
+          };
+          menuBtn.addEventListener('click', () => setOpen(true));
+          closeBtn?.addEventListener('click', () => setOpen(false));
+          overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+          document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') setOpen(false);
+          });
         }
 
         // Scroll reveal (all variants)
@@ -51,7 +76,7 @@ const { title, description = 'AHH Construcción y Remodelación — Construcció
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
         reveals.forEach(el => observer.observe(el));
 
-        // Count-up numbers: "+150" ticks from 0 once it enters the viewport
+        // Count-up numbers: "+10" ticks from 0 once it enters the viewport
         const counters = document.querySelectorAll<HTMLElement>('[data-count]');
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const countObserver = new IntersectionObserver((entries) => {
@@ -103,9 +128,24 @@ const { title, description = 'AHH Construcción y Remodelación — Construcció
         const header = document.getElementById('main-header');
         if (!header || header.dataset.bound) return;
         header.dataset.bound = 'true';
-        const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
+
+        setTimeout(() => header.classList.add('nav-in'), 200);
+
+        // La barra es transparente, así que el color lo dicta la sección que
+        // queda debajo. El hero de video actualiza su propio data-nav-theme
+        // mientras avanza, así que aquí no necesita caso especial.
+        const probe = () => {
+          const y = header.getBoundingClientRect().bottom - 10;
+          // Sin coincidencia asumimos claro: el fondo del body es bone, así que
+          // el texto blanco sería el que desaparece.
+          const hit = document
+            .elementsFromPoint(window.innerWidth / 2, y)
+            .find(n => n instanceof HTMLElement && n.dataset.navTheme) as HTMLElement | undefined;
+          header.classList.toggle('nav-on-light', hit?.dataset.navTheme !== 'dark');
+        };
+        window.addEventListener('scroll', probe, { passive: true });
+        window.addEventListener('resize', probe);
+        probe();
       }
 
       // astro:page-load fires on the first load too, so binding here covers both cases

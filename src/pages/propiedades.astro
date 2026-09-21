@@ -7,29 +7,35 @@ import PropertyCard from '../components/PropertyCard.astro';
 import { properties } from '../data/site';
 
 const delays = ['', 'reveal-delay-1', 'reveal-delay-2'];
+const count = properties.length;
 ---
 
-<Layout title="Propiedades en venta — AHH Construcción">
+<Layout title="Propiedades en venta — AHH Construcción y Remodelación">
   <Header slot="header" activePage="Propiedades" />
 
   <!-- Hero -->
-  <section class="hero">
+  <section data-nav-theme="dark" class="hero">
     <div class="hero-media" style="background-image:url('/img/hero-propiedades.jpg')"></div>
     <div class="relative max-w-[88rem] mx-auto px-6 lg:px-10 py-20 lg:py-24">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
         <div class="max-w-2xl">
           <h1 class="reveal display display-lg text-white mb-6">Propiedades en venta</h1>
-          <div class="reveal reveal-delay-1 gold-line mb-8"></div>
+          <div class="reveal reveal-delay-1 rule mb-8"></div>
           <p class="reveal reveal-delay-2 text-gray-300 text-base lg:text-lg leading-relaxed">
-            Encuentra tu próximo hogar o invierte en propiedades con ubicación estratégica, diseño funcional y alta plusvalía.
+            Además de construir por encargo, ocasionalmente vendemos casa propia. Trato directo,
+            sin intermediarios.
           </p>
         </div>
 
         <div class="reveal reveal-delay-3 bg-dark/85 border border-white/10 px-8 py-6 flex items-center gap-5 self-start lg:self-auto">
-          <Icon name="home" size={40} class="text-gold shrink-0" stroke={1.2} />
+          <Icon name="home" size={40} class="text-sand shrink-0" stroke={1.2} />
           <div>
-            <p class="display text-xl text-white leading-tight">{properties.length} propiedades</p>
-            <p class="display text-xl text-white/80 leading-tight">disponibles</p>
+            <p class="display text-xl text-white leading-tight">
+              {count === 1 ? '1 propiedad' : `${count} propiedades`}
+            </p>
+            <p class="display text-xl text-white/80 leading-tight">
+              {count === 1 ? 'disponible' : 'disponibles'}
+            </p>
           </div>
         </div>
       </div>
@@ -37,46 +43,46 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2'];
   </section>
 
   <!-- Listing -->
-  <section class="bg-surface py-16 lg:py-20">
+  <section class="bg-bone py-16 lg:py-20">
     <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
-      <div class="reveal flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
-        <div>
-          <p class="eyebrow mb-4">Nuestras propiedades</p>
-          <h2 class="heading">Encuentra la opción ideal para ti</h2>
-        </div>
-
-        <form class="flex flex-col sm:flex-row gap-4 shrink-0">
-          <select class="field !w-auto min-w-[13rem] text-gray-600" aria-label="Ubicación">
-            <option value="">Todas las ubicaciones</option>
-            <option value="cumbres">Cumbres II</option>
-            <option value="cordillera">Cordillera Residencial</option>
-            <option value="san-francisco">San Francisco</option>
-          </select>
-          <select class="field !w-auto min-w-[13rem] text-gray-600" aria-label="Tipo de propiedad">
-            <option value="">Tipo de propiedad</option>
-            <option value="casa">Casa</option>
-            <option value="terreno">Terreno</option>
-            <option value="local">Local comercial</option>
-          </select>
-          <button type="submit" class="btn-outline">
-            Filtrar
-            <Icon name="filter" size={16} stroke={2} />
-          </button>
-        </form>
+      <div class="reveal mb-12">
+        <p class="eyebrow mb-4">Nuestras propiedades</p>
+        <h2 class="heading">Disponible ahora</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {properties.map((p, i) => <PropertyCard property={p} variant="full" delay={delays[i]} />)}
       </div>
 
+      {properties.map(p => (
+        <div class="reveal card mt-8 p-8">
+          <h3 class="display display-sm mb-6">Distribución — {p.name}</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {p.distribution.map(level => (
+              <div>
+                <p class="eyebrow mb-4">{level.floor}</p>
+                <ul class="check-list space-y-2.5">
+                  {level.rooms.map(room => (
+                    <li>
+                      <Icon name="check" size={15} class="text-accent-deep shrink-0 mt-0.5" stroke={2.2} />
+                      {room}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
       <!-- Inline CTA -->
-      <div class="reveal bg-cream-2 border border-black/6 mt-10 px-8 py-7 flex flex-col lg:flex-row items-center gap-6">
+      <div class="reveal bg-sand border border-black/6 mt-10 px-8 py-7 flex flex-col lg:flex-row items-center gap-6">
         <div class="w-14 h-14 rounded-full bg-dark flex items-center justify-center shrink-0">
-          <Icon name="handshake" size={26} class="text-gold" stroke={1.3} />
+          <Icon name="handshake" size={26} class="text-sand" stroke={1.3} />
         </div>
         <div class="flex-1 text-center lg:text-left">
           <h3 class="display display-sm mb-1">¿No encuentras lo que buscas?</h3>
-          <p class="text-sm text-gray-600">Te ayudamos a encontrar la propiedad ideal o a desarrollar un proyecto a la medida.</p>
+          <p class="text-sm text-gray-700">Construimos a la medida en el terreno que tú elijas.</p>
         </div>
         <a href="/contacto" class="btn-dark shrink-0">
           Hablemos de tu proyecto

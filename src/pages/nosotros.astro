@@ -3,36 +3,38 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
-import { values, stats } from '../data/site';
+import { values, process, brand, contact } from '../data/site';
 
-const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3', 'reveal-delay-4'];
+const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
 ---
 
-<Layout title="Nosotros — AHH Construcción">
+<Layout title="Nosotros — AHH Construcción y Remodelación">
   <Header slot="header" activePage="Nosotros" />
 
   <!-- Hero -->
-  <section class="hero">
+  <section data-nav-theme="dark" class="hero">
     <div class="hero-media" style="background-image:url('/img/hero-nosotros.jpg')"></div>
     <div class="relative max-w-[88rem] mx-auto px-6 lg:px-10 py-20 lg:py-28">
       <div class="max-w-xl">
         <nav class="reveal flex items-center gap-2 text-sm mb-6">
           <a href="/" class="text-white/70 hover:text-white transition-colors">Inicio</a>
           <span class="text-white/30">&rsaquo;</span>
-          <span class="text-gold">Nosotros</span>
+          <span class="text-sand">Nosotros</span>
         </nav>
 
         <h1 class="reveal reveal-delay-1 display display-lg text-white mb-6">
-          Sobre <span class="text-gold">AHH</span>
+          Sobre <span class="text-sand">AHH</span>
         </h1>
-        <div class="reveal reveal-delay-1 gold-line mb-8"></div>
+        <div class="reveal reveal-delay-1 rule mb-8"></div>
 
         <p class="reveal reveal-delay-2 text-white text-lg font-semibold leading-snug mb-6">
-          En AHH Construcción y Remodelación transformamos ideas en proyectos reales.
+          {brand.slogan}
         </p>
 
         <p class="reveal reveal-delay-2 text-gray-300 leading-relaxed mb-10">
-          Somos una empresa chihuahuense especializada en construcción, remodelación y desarrollo inmobiliario, comprometida con la calidad, el diseño y la funcionalidad en cada detalle.
+          Somos una empresa chihuahuense de construcción y remodelación con {brand.yearsOfExperience} años
+          de experiencia. Trabajamos proyectos residenciales y comerciales en {contact.coverage},
+          desde una reparación puntual hasta una obra completa.
         </p>
 
         <a href="/proyectos" class="reveal reveal-delay-3 btn-primary">
@@ -44,20 +46,20 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3', 'revea
   </section>
 
   <!-- Values -->
-  <section class="bg-surface py-16 lg:py-20">
+  <section class="bg-bone py-16 lg:py-20">
     <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
       <div class="flex flex-col lg:flex-row gap-10 lg:gap-6">
         <div class="reveal lg:w-56 shrink-0">
           <p class="eyebrow mb-2">Nuestros</p>
           <h2 class="display display-md mb-4">Valores</h2>
-          <div class="gold-line"></div>
+          <div class="rule"></div>
         </div>
 
-        <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-black/8">
+        <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-black/8">
           {values.map((v, i) => (
             <div class={`reveal ${delays[i]} px-0 sm:px-5 lg:px-6 py-6 sm:py-2`}>
-              <Icon name={v.icon} size={28} class="text-gold mb-4" stroke={1.2} />
-              <h3 class="display text-[15px] tracking-[0.02em] mb-3">{v.title}</h3>
+              <Icon name={v.icon} size={28} class="text-accent-deep mb-4" stroke={1.2} />
+              <h3 class="display text-[17px] mb-3">{v.title}</h3>
               <p class="text-[13px] text-gray-600 leading-relaxed">{v.text}</p>
             </div>
           ))}
@@ -66,44 +68,26 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3', 'revea
     </div>
   </section>
 
-  <!-- Team -->
-  <section class="section-cream py-16 lg:py-24">
-    <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
-      <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-        <div class="reveal lg:w-1/3">
-          <p class="eyebrow mb-4">El equipo AHH</p>
-          <h2 class="heading mb-5">Detrás de cada proyecto,<br class="hidden lg:block"> hay un gran equipo.</h2>
-          <div class="gold-line mb-7"></div>
-          <p class="text-gray-600 leading-relaxed mb-9">
-            Contamos con arquitectos, ingenieros y especialistas apasionados por construir espacios que mejoran la vida de las personas.
-          </p>
-          <a href="/contacto" class="btn-outline">
-            Trabaja con nosotros
-            <Icon name="arrow" size={16} stroke={2} />
-          </a>
-        </div>
-
-        <div class="reveal-right reveal-delay-2 lg:flex-1 w-full">
-          <div class="media h-80 lg:h-[26rem] rounded-sm" style="background-image:url('/img/equipo.jpg')"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats -->
-  <section class="section-dark noise py-14 lg:py-16">
+  <!-- Cómo trabajamos -->
+  <section data-nav-theme="dark" class="section-dark noise py-16 lg:py-20">
     <div class="relative max-w-[88rem] mx-auto px-6 lg:px-10">
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
-        {stats.map((s, i) => (
-          <div class={`reveal ${delays[i]} flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-5 text-center lg:text-left`}>
-            <Icon name={s.icon} size={44} class="text-gold shrink-0" stroke={1.1} />
-            <div>
-              <p class="display text-3xl lg:text-4xl text-white leading-none mb-2" data-count={s.value}>{s.value}</p>
-              <p class="display text-[11px] text-gray-400 tracking-[0.12em]">{s.label}</p>
-            </div>
-          </div>
-        ))}
+      <div class="reveal max-w-xl mb-12">
+        <p class="eyebrow mb-4">Cómo trabajamos</p>
+        <h2 class="display display-md text-white mb-4">De la primera llamada a la entrega</h2>
+        <p class="text-gray-400 leading-relaxed">
+          Un proceso corto y sin sorpresas. Cotizamos en sitio y arrancamos en un máximo de tres días.
+        </p>
       </div>
+
+      <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+        {process.map((step, i) => (
+          <li class={`reveal ${delays[i]} border-t border-white/15 pt-6`}>
+            <p class="display text-sand text-2xl mb-4">{step.num}</p>
+            <h3 class="display text-[17px] text-white mb-3">{step.title}</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">{step.text}</p>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 

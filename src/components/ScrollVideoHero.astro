@@ -1,0 +1,267 @@
+---
+import Icon from './Icon.astro';
+import { brand, contact } from '../data/site';
+
+const VIDEO = '/video/hero-obra.mp4';
+---
+
+<section id="scroll-hero" class="relative h-[500vh]">
+  <div class="sticky top-0 w-full h-screen overflow-hidden bg-dark">
+    <video
+      data-sv-video
+      src={VIDEO}
+      muted
+      playsinline
+      preload="auto"
+      class="absolute inset-0 w-full h-full object-cover"
+    ></video>
+
+    <!-- Debe coincidir con el video: si el canvas es menor, drawImage reduce
+         cada frame y se pierde la resolución en pantallas retina. -->
+    <canvas
+      data-sv-canvas
+      width="2304"
+      height="1296"
+      class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300"
+    ></canvas>
+
+    <div class="absolute inset-0 pointer-events-none">
+      <!-- 1 — eslogan -->
+      <div data-sv-section="1" class="sv-section absolute inset-0">
+        <div class="sv-scrim sv-scrim-left"></div>
+        <div class="relative h-full flex flex-col justify-center px-6 sm:px-8 md:px-20 lg:px-32">
+          <p data-stagger class="eyebrow mb-6" style="transition-delay:0ms">
+            Construcción y remodelación en Chihuahua
+          </p>
+          <h1
+            data-stagger
+            class="display display-lg max-w-3xl"
+            style="transition-delay:150ms; color: var(--color-dark)"
+          >
+            {brand.slogan}
+          </h1>
+          <p
+            data-stagger
+            class="mt-6 text-sm tracking-[0.3em] uppercase"
+            style="transition-delay:300ms; color: #182028CC"
+          >
+            {brand.yearsOfExperience} años de obra en {contact.coverage}
+          </p>
+        </div>
+
+        <div
+          data-stagger
+          class="absolute bottom-12 right-6 sm:right-8 md:right-12"
+          style="transition-delay:450ms"
+        >
+          <span class="sv-dial" aria-hidden="true">
+            <Icon name="arrow" size={18} stroke={1.8} />
+          </span>
+        </div>
+      </div>
+
+      <!-- 2 — alcance -->
+      <div data-sv-section="2" class="sv-section absolute inset-0">
+        <div class="sv-scrim sv-scrim-center"></div>
+        <div class="relative h-full flex items-center justify-center px-6 sm:px-8">
+          <h2
+            data-stagger
+            class="display max-w-[900px] text-center"
+            style="transition-delay:0ms; font-size:clamp(1.5rem,4vw,3.5rem); line-height:1.3; color: var(--color-dark)"
+          >
+            Obra nueva, remodelación y ampliaciones{' '}
+            <span style="color:#182028CC">con garantía</span>{' '}
+            <span style="color:#18202880">en todo el estado</span>
+          </h2>
+        </div>
+
+        <div class="absolute bottom-16 right-6 sm:right-8 md:right-12 flex flex-col items-center gap-4">
+          <span data-stagger class="sv-dial" style="transition-delay:200ms" aria-hidden="true">
+            <Icon name="arrow" size={18} stroke={1.8} class="rotate-90" />
+          </span>
+          <span
+            data-stagger
+            class="mt-2 flex flex-col items-center gap-2"
+            style="transition-delay:350ms"
+            aria-hidden="true"
+          >
+            <span class="sv-dot sv-dot-on"></span>
+            <span class="sv-dot"></span>
+            <span class="sv-dot"></span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 3 — cierre -->
+      <div data-sv-section="3" class="sv-section absolute inset-0">
+        <div class="sv-scrim sv-scrim-right"></div>
+        <div class="relative h-full flex items-center justify-end px-6 sm:px-8 md:px-20 lg:px-32">
+          <div class="max-w-2xl text-left">
+            <p data-stagger class="text-white/60 text-sm tracking-[0.2em] uppercase mb-5" style="transition-delay:0ms">
+              {brand.name}
+            </p>
+            <h2
+              data-stagger
+              class="display text-white mb-8"
+              style="transition-delay:150ms; font-size:clamp(2rem,4vw,3.5rem); line-height:1.2"
+            >
+              Cotizamos en sitio,<br />arrancamos en 3 días.
+            </h2>
+            <div data-stagger class="flex items-center gap-4" style="transition-delay:300ms">
+              <a href="/contacto" class="btn-primary pointer-events-auto">
+                Cotiza tu proyecto
+                <Icon name="arrow" size={16} stroke={2} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sv-section {
+    opacity: 0;
+    transition: opacity 0.1s ease-out;
+  }
+
+  /* Los fotogramas de obra tienen mucho detalle y se comen el texto. El velo
+     vive dentro de la sección, así que entra y sale con su copy. */
+  .sv-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .sv-scrim-left {
+    background: linear-gradient(
+      90deg,
+      rgba(247, 247, 245, 0.86) 0%,
+      rgba(247, 247, 245, 0.58) 32%,
+      rgba(247, 247, 245, 0.12) 58%,
+      rgba(247, 247, 245, 0) 74%
+    );
+  }
+  /* Banda horizontal, no elipse: la elipse lavaba el encuadre entero. */
+  .sv-scrim-center {
+    background: linear-gradient(
+      180deg,
+      rgba(247, 247, 245, 0) 10%,
+      rgba(247, 247, 245, 0.66) 30%,
+      rgba(247, 247, 245, 0.66) 66%,
+      rgba(247, 247, 245, 0) 88%
+    );
+  }
+  .sv-scrim-right {
+    background: linear-gradient(
+      270deg,
+      rgba(24, 32, 40, 0.78) 0%,
+      rgba(24, 32, 40, 0.48) 36%,
+      rgba(24, 32, 40, 0.12) 66%,
+      rgba(24, 32, 40, 0) 82%
+    );
+  }
+  @media (max-width: 767px) {
+    .sv-scrim-left,
+    .sv-scrim-center {
+      background: rgba(247, 247, 245, 0.82);
+    }
+    .sv-scrim-right {
+      background: rgba(24, 32, 40, 0.74);
+    }
+  }
+
+  [data-stagger] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sv-in [data-stagger] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sv-dial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    border: 1px solid #18202880;
+    color: var(--color-dark);
+  }
+
+  .sv-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #18202866;
+  }
+  .sv-dot-on {
+    width: 8px;
+    height: 8px;
+    background: var(--color-dark);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-stagger] {
+      transition-duration: 0.001ms !important;
+    }
+  }
+</style>
+
+<script>
+  import { initVideoScrub } from '../scripts/videoScrub';
+
+  function initScrollHero() {
+    const root = document.getElementById('scroll-hero');
+    if (!root || root.dataset.bound) return;
+    root.dataset.bound = 'true';
+
+    const video = root.querySelector<HTMLVideoElement>('[data-sv-video]');
+    const canvas = root.querySelector<HTMLCanvasElement>('[data-sv-canvas]');
+    if (!video || !canvas) return;
+
+    const sections = Array.from(root.querySelectorAll<HTMLElement>('.sv-section'));
+    const header = document.getElementById('main-header');
+
+    const handle = initVideoScrub({
+      container: root,
+      video,
+      canvas,
+      src: video.src,
+      onCanvasLive: (live) => canvas.classList.toggle('opacity-0', !live),
+      onProgress: (p) => {
+        const o1 = p < 0.2 ? 1 : Math.max(0, 1 - (p - 0.2) / 0.08);
+        const o2 =
+          p < 0.32
+            ? 0
+            : p < 0.4
+              ? (p - 0.32) / 0.08
+              : p < 0.55
+                ? 1
+                : Math.max(0, 1 - (p - 0.55) / 0.08);
+        const o3 = p < 0.67 ? 0 : p < 0.75 ? (p - 0.67) / 0.08 : 1;
+
+        const opacities = [o1, o2, o3];
+        sections.forEach((el, i) => {
+          const o = opacities[i];
+          el.style.opacity = String(o);
+          el.classList.toggle('sv-in', o > 0.3);
+        });
+
+        // Las dos primeras tomas son de día, la última al anochecer. Publicamos
+        // el tema en la propia sección para que el detector del header lo lea
+        // como al de cualquier otra, en vez de escribir los dos sobre la barra.
+        root.dataset.navTheme = p <= 0.6 ? 'light' : 'dark';
+      },
+    });
+
+    document.addEventListener('astro:before-swap', () => handle.destroy(), { once: true });
+  }
+
+  document.addEventListener('astro:page-load', initScrollHero);
+</script>

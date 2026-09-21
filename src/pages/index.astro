@@ -4,7 +4,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
 import PropertyCard from '../components/PropertyCard.astro';
-import { services, properties } from '../data/site';
+import ScrollVideoHero from '../components/ScrollVideoHero.astro';
+import { services, properties, features } from '../data/site';
 
 const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
 ---
@@ -12,45 +13,15 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
 <Layout title="AHH Construcción y Remodelación — Chihuahua">
   <Header slot="header" activePage="Inicio" />
 
-  <!-- Hero -->
-  <section class="hero hero-full">
-    <div class="hero-media" style="background-image:url('/img/hero-inicio.jpg')"></div>
-    <div class="relative w-full max-w-[88rem] mx-auto px-6 lg:px-10 pt-40 pb-14 lg:pb-16">
-      <div class="max-w-xl">
-        <p class="reveal eyebrow mb-6">Diseñamos. Construimos. Transformamos.</p>
-
-        <h1 class="reveal reveal-delay-1 display display-lg text-white mb-8">
-          Construimos<br>confianza,<br>
-          <span class="text-gold">creamos valor.</span>
-        </h1>
-
-        <p class="reveal reveal-delay-2 text-gray-300 text-base lg:text-lg leading-relaxed mb-10 max-w-lg">
-          En AHH Construcción y Remodelación desarrollamos proyectos que combinan diseño, calidad y funcionalidad para mejorar tu vida y hacer crecer tu patrimonio.
-        </p>
-
-        <div class="reveal reveal-delay-3 flex flex-col sm:flex-row gap-4">
-          <a href="/propiedades" class="btn-primary">
-            <Icon name="home" size={17} />
-            Ver propiedades en venta
-          </a>
-          <a href="/contacto" class="btn-ghost">
-            <Icon name="quote" size={17} />
-            Cotiza tu proyecto
-          </a>
-        </div>
-      </div>
-
-      <p class="scroll-hint text-center mt-14 lg:mt-16">[ Desplaza para descubrir ]</p>
-    </div>
-  </section>
+  <ScrollVideoHero />
 
   <!-- Services strip -->
-  <section class="bg-dark-2 border-t border-white/6">
+  <section data-nav-theme="dark" class="bg-dark-2 border-t border-white/6">
     <div class="max-w-[88rem] mx-auto px-6 lg:px-10 py-14 lg:py-16">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
         {services.map((s, i) => (
           <a href="/servicios" class={`reveal ${delays[i]} group px-6 lg:px-10 py-8 sm:py-4 text-center`}>
-            <Icon name={s.icon} size={40} class="text-gold mx-auto mb-5 group-hover:scale-105 transition-transform duration-300" stroke={1.2} />
+            <Icon name={s.icon} size={40} class="text-sand mx-auto mb-5 group-hover:scale-105 transition-transform duration-300" stroke={1.2} />
             <h3 class="display display-sm text-white mb-3">{s.title}</h3>
             <p class="text-sm text-gray-400 leading-relaxed max-w-[16rem] mx-auto">{s.short}</p>
           </a>
@@ -59,59 +30,48 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'];
     </div>
   </section>
 
-  <!-- Properties -->
-  <section class="bg-surface py-20 lg:py-28">
-    <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
-      <div class="reveal flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
-        <div>
-          <p class="eyebrow mb-4">Propiedades en venta</p>
-          <h2 class="heading">Encuentra tu próximo hogar</h2>
+  <!-- Propiedad en venta -->
+  {properties.length > 0 && (
+    <section class="bg-bone py-20 lg:py-28">
+      <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
+        <div class="reveal flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+          <div>
+            <p class="eyebrow mb-4">Propiedades en venta</p>
+            <h2 class="heading">También vendemos lo que construimos</h2>
+          </div>
+          <a href="/propiedades" class="link-accent shrink-0">
+            Ver el detalle
+            <Icon name="arrow" size={16} stroke={2} />
+          </a>
         </div>
-        <a href="/propiedades" class="link-gold shrink-0">
-          Ver todas las propiedades
-          <Icon name="arrow" size={16} stroke={2} />
-        </a>
-      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {properties.map((p, i) => <PropertyCard property={p} delay={delays[i]} />)}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {properties.map((p, i) => <PropertyCard property={p} delay={delays[i]} />)}
+        </div>
       </div>
-
-      <div class="reveal flex justify-center mt-12">
-        <a href="/propiedades" class="btn-outline">
-          Ver todas las propiedades
-          <Icon name="arrow" size={16} stroke={2} />
-        </a>
-      </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- CTA band -->
-  <section class="hero">
+  <section data-nav-theme="dark" class="hero">
     <div class="hero-media dim" style="background-image:url('/img/cta-band.jpg')"></div>
     <div class="relative max-w-[88rem] mx-auto px-6 lg:px-10 py-16 lg:py-20">
       <div class="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
 
-        <div class="lg:w-1/3 text-center lg:text-left">
+        <div class="lg:w-1/4 text-center lg:text-left">
           <h2 class="display display-md text-white mb-4">¿Tienes un proyecto<br class="hidden lg:block"> en mente?</h2>
-          <p class="text-gray-400 text-sm leading-relaxed">Nuestro equipo está listo para ayudarte a hacerlo realidad.</p>
+          <p class="text-gray-400 text-sm leading-relaxed">Vamos a verlo contigo antes de cotizar.</p>
         </div>
 
         <div class="hidden lg:block w-px self-stretch bg-white/15"></div>
 
-        <div class="lg:flex-1 grid grid-cols-1 sm:grid-cols-3 gap-8">
-          <div class="text-center">
-            <Icon name="chat" size={32} class="text-gold mx-auto mb-4" stroke={1.2} />
-            <p class="text-sm text-white/90 leading-snug">Asesoría<br>personalizada</p>
-          </div>
-          <div class="text-center">
-            <Icon name="calendar" size={32} class="text-gold mx-auto mb-4" stroke={1.2} />
-            <p class="text-sm text-white/90 leading-snug">Cotización<br>sin compromiso</p>
-          </div>
-          <div class="text-center">
-            <Icon name="shield" size={32} class="text-gold mx-auto mb-4" stroke={1.2} />
-            <p class="text-sm text-white/90 leading-snug">Calidad<br>garantizada</p>
-          </div>
+        <div class="lg:flex-1 grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map(f => (
+            <div class="text-center">
+              <Icon name={f.icon} size={30} class="text-sand mx-auto mb-4" stroke={1.2} />
+              <p class="text-[13px] text-white/90 leading-snug">{f.title}</p>
+            </div>
+          ))}
         </div>
 
         <a href="/contacto" class="btn-primary shrink-0">

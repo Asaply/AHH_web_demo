@@ -15,23 +15,27 @@ muestra el degradado oscuro de `.media` / `.hero-media` en su lugar (sin errores
 ## Servicios (4:3, mín. 800×600)
 - servicio-construccion.jpg
 - servicio-remodelacion.jpg
-- servicio-desarrollo.jpg
-- servicio-diseno.jpg
+- servicio-ampliaciones.jpg
+- servicio-mantenimiento.jpg
 
-## Propiedades (4:3, mín. 1000×750)
-- propiedad-cumbres.jpg
-- propiedad-cordillera.jpg
-- propiedad-san-francisco.jpg
+## Pendientes de entrega del cliente
 
-## Proyectos (4:3, mín. 1000×750)
-- proyecto-cumbres.jpg
-- proyecto-cocina.jpg
-- proyecto-plaza.jpg
-- proyecto-sala.jpg
-- proyecto-san-francisco.jpg
-- proyecto-oficinas.jpg
+Estas rutas están vacías a propósito en `src/data/site.ts`: usar foto de archivo
+para obra propia sería presentar trabajo ajeno como de AHH. En cuanto lleguen las
+fotos reales, se agregan aquí y se rellena el campo `image`.
 
-## Otros
-- equipo.jpg            (foto del equipo, horizontal)
+- Casa en Fraccionamiento Cittanova (4:3, mín. 1000×750)
+- Residencia Los Leones I y II (4:3, mín. 1000×750)
+- Set de antes/después de remodelaciones
+
+## Sin uso actual
+
+Quedaron en el repo tras retirar las propiedades y proyectos ficticios. Son fotos
+de archivo genéricas, reutilizables como imagen de sección, pero no deben volver a
+presentarse como obra de AHH:
+`propiedad-cumbres.jpg`, `propiedad-cordillera.jpg`, `propiedad-san-francisco.jpg`,
+`proyecto-cumbres.jpg`, `proyecto-cocina.jpg`, `proyecto-plaza.jpg`,
+`proyecto-sala.jpg`, `proyecto-san-francisco.jpg`, `proyecto-oficinas.jpg`,
+`equipo.jpg`.
 
 Las rutas viven en `src/data/site.ts` y en los `style="background-image:..."` de cada página.

@@ -8,10 +8,15 @@ interface Props {
   delay?: string;
 }
 const { property: p, variant = 'compact', delay = '' } = Astro.props;
+
+// Foto genérica mientras no haya fotos reales de la propiedad — nunca el
+// degradado plano de .media a secas.
+const image = p.image || '/img/propiedad-generica.jpg';
+const detailHref = `/propiedades#${p.slug}`;
 ---
 
-<article class={`card reveal ${delay} flex flex-col`}>
-  <div class="media h-56 sm:h-60" style={`background-image:url('${p.image}')`}>
+<article id={variant === 'full' ? p.slug : undefined} class={`card reveal ${delay} flex flex-col scroll-mt-[var(--nav-h)]`}>
+  <div class="media h-56 sm:h-60" style={`background-image:url('${image}')`}>
     <span class="tag">En venta</span>
   </div>
 
@@ -19,28 +24,37 @@ const { property: p, variant = 'compact', delay = '' } = Astro.props;
     <h3 class={variant === 'full' ? 'display display-sm mb-2' : 'text-lg font-semibold mb-2'}>{p.name}</h3>
 
     <p class="flex items-center gap-2 text-sm text-gray-500 mb-5">
-      <Icon name="pin" size={16} class="text-gold shrink-0" />
+      <Icon name="pin" size={16} class="text-accent-deep shrink-0" />
       {p.location}
     </p>
 
     <div class="flex items-center gap-4 sm:gap-5 text-sm text-gray-600 py-4 border-y border-black/6">
       <span class="flex items-center gap-1.5"><Icon name="bed" size={17} class="text-gray-400" />{p.beds}</span>
       <span class="flex items-center gap-1.5"><Icon name="bath" size={17} class="text-gray-400" />{p.baths}</span>
-      <span class="flex items-center gap-1.5"><Icon name="area" size={17} class="text-gray-400" />{p.area} m²</span>
-      <span class="flex items-center gap-1.5"><Icon name="car" size={17} class="text-gray-400" />{p.parking}</span>
+      <span class="flex items-center gap-1.5"><Icon name="area" size={17} class="text-gray-400" />{p.builtArea} m²</span>
     </div>
 
-    <div class={`mt-5 flex items-end justify-between gap-4 ${variant === 'compact' ? '' : 'flex-wrap'}`}>
+    {variant === 'full' && (
+      <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+        <dt class="text-gray-500">Terreno</dt>
+        <dd class="text-right font-medium">{p.landArea} m²</dd>
+        <dt class="text-gray-500">Construcción</dt>
+        <dd class="text-right font-medium">{p.builtArea} m²</dd>
+      </dl>
+    )}
+
+    <div class="mt-5 flex items-end justify-between gap-4 flex-wrap">
       <div>
-        {variant === 'full' && <p class="text-xs text-gray-500 mb-1">Precio:</p>}
-        <p class="display display-sm text-gold">{p.price}</p>
+        <p class="text-xs text-gray-500 mb-1">{p.note}</p>
+        <p class="display display-sm">{p.price}</p>
       </div>
-      {variant === 'full' && (
-        <a href="/contacto" class="btn-outline !py-2.5 !px-5 !text-[11px]">
-          Ver detalles
-          <Icon name="arrow" size={14} stroke={2} />
-        </a>
-      )}
+      <a
+        href={variant === 'full' ? '/contacto' : detailHref}
+        class="btn-outline !py-2.5 !px-5 !text-[11px]"
+      >
+        Ver detalles
+        <Icon name="arrow" size={14} stroke={2} />
+      </a>
     </div>
   </div>
 </article>

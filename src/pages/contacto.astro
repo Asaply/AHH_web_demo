@@ -3,53 +3,84 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
-import { contact } from '../data/site';
+import { contact, services } from '../data/site';
 
 const infoBlocks = [
-  { icon: 'phone', title: 'Teléfono', value: contact.phone, href: contact.phoneHref, note: contact.hours },
-  { icon: 'mail', title: 'Correo', value: contact.email, href: `mailto:${contact.email}`, note: 'Responderemos a la brevedad' },
-  { icon: 'pin', title: 'Dirección', value: contact.city, href: '', note: contact.zip },
-];
+  contact.hasPhone && {
+    icon: 'phone',
+    title: 'Teléfono y WhatsApp',
+    value: contact.phone,
+    href: contact.phoneHref,
+    note: contact.hours,
+  },
+  {
+    icon: 'pin',
+    title: 'Dirección',
+    value: `${contact.street}, ${contact.colonia}`,
+    href: '',
+    note: contact.city,
+  },
+  {
+    icon: 'clock',
+    title: 'Horario',
+    value: contact.hours,
+    href: '',
+    note: `Cobertura: ${contact.coverage}`,
+  },
+].filter(Boolean) as { icon: string; title: string; value: string; href: string; note: string }[];
+
+// Col. Altavista. El número exacto no está georreferenciado, así que el mapa
+// encuadra la colonia en vez de clavar un pin en una coordenada inventada.
+const mapBbox = '-106.093%2C28.643%2C-106.069%2C28.659';
+const mapMarker = '28.6513%2C-106.0809';
+
+const primaryCta = contact.hasPhone ? contact.whatsapp : '#formulario';
+// Enlace externo -> pestaña nueva (no saca al visitante del sitio). Ancla
+// interna -> misma pestaña, target="_blank" ahí solo abriría una copia
+// inútil de la página.
+const ctaProps = contact.hasPhone
+  ? { target: '_blank', rel: 'noopener' }
+  : {};
 ---
 
-<Layout title="Contacto — AHH Construcción">
+<Layout title="Contacto — AHH Construcción y Remodelación">
   <Header slot="header" activePage="Contacto" />
 
   <!-- Hero -->
-  <section class="hero">
+  <section data-nav-theme="dark" class="hero">
     <div class="hero-media" style="background-image:url('/img/hero-contacto.jpg')"></div>
     <div class="relative max-w-[88rem] mx-auto px-6 lg:px-10 py-20 lg:py-24">
       <nav class="reveal flex items-center gap-2 text-sm mb-5">
         <a href="/" class="text-white/70 hover:text-white transition-colors">Inicio</a>
         <span class="text-white/30">&rsaquo;</span>
-        <span class="text-gold">Contacto</span>
+        <span class="text-sand">Contacto</span>
       </nav>
 
       <h1 class="reveal reveal-delay-1 display display-lg text-white mb-6">
-        Estamos listos<br>para construir <span class="text-gold">tu proyecto.</span>
+        Estamos listos<br>para construir <span class="text-sand">tu proyecto.</span>
       </h1>
-      <div class="reveal reveal-delay-1 gold-line mb-8"></div>
+      <div class="reveal reveal-delay-1 rule mb-8"></div>
 
       <p class="reveal reveal-delay-2 text-gray-300 text-base lg:text-lg leading-relaxed max-w-md">
-        Hablemos de tus ideas y encontremos la mejor solución para hacerlas realidad.
+        Cuéntanos qué necesitas. Agendamos una visita, lo vemos en sitio y te cotizamos.
       </p>
     </div>
   </section>
 
   <!-- Form + info + map -->
-  <section class="bg-surface py-16 lg:py-20">
+  <section class="bg-bone py-16 lg:py-20">
     <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
         <!-- Form -->
-        <div class="reveal lg:col-span-5 bg-white border border-black/8 rounded-sm p-8 lg:p-9">
+        <div id="formulario" class="reveal lg:col-span-5 bg-white border border-black/8 rounded-sm p-8 lg:p-9">
           <div class="flex items-center gap-3 mb-3">
-            <Icon name="mail" size={26} class="text-gold shrink-0" stroke={1.3} />
+            <Icon name="mail" size={26} class="text-accent-deep shrink-0" stroke={1.3} />
             <h2 class="display display-sm">Envíanos un mensaje</h2>
           </div>
-          <div class="gold-line-sm mb-8"></div>
+          <div class="rule-sm mb-8"></div>
 
-          <form class="space-y-4">
+          <form id="contact-form" class="space-y-4" data-whatsapp={contact.whatsapp}>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input type="text" name="nombre" required placeholder="Nombre completo*" class="field" aria-label="Nombre completo" />
               <input type="tel" name="telefono" required placeholder="Teléfono*" class="field" aria-label="Teléfono" />
@@ -59,9 +90,7 @@ const infoBlocks = [
               <input type="email" name="correo" required placeholder="Correo electrónico*" class="field" aria-label="Correo electrónico" />
               <select name="tipo" class="field text-gray-500" aria-label="Tipo de proyecto">
                 <option value="">Tipo de proyecto</option>
-                <option value="construccion">Construcción</option>
-                <option value="remodelacion">Remodelación</option>
-                <option value="desarrollo">Desarrollo inmobiliario</option>
+                {services.map(s => <option value={s.slug}>{s.title}</option>)}
                 <option value="otro">Otro</option>
               </select>
             </div>
@@ -73,8 +102,10 @@ const infoBlocks = [
               <Icon name="arrow" size={16} stroke={2} />
             </button>
 
+            <p id="contact-form-status" class="hidden text-xs text-gray-700 bg-bone-2 rounded-md px-3 py-2" aria-live="polite"></p>
+
             <p class="flex items-center gap-2 text-xs text-gray-500 pt-1">
-              <Icon name="shield" size={15} class="text-gold shrink-0" />
+              <Icon name="shield" size={15} class="text-accent-deep shrink-0" />
               Tu información está protegida. No compartimos tus datos.
             </p>
           </form>
@@ -86,37 +117,17 @@ const infoBlocks = [
             {infoBlocks.map(b => (
               <div class="flex items-start gap-3.5 py-5 first:pt-0 last:pb-0">
                 <span class="w-10 h-10 rounded-full bg-dark flex items-center justify-center shrink-0">
-                  <Icon name={b.icon} size={18} class="text-gold" stroke={1.5} />
+                  <Icon name={b.icon} size={18} class="text-sand" stroke={1.5} />
                 </span>
                 <div class="min-w-0">
-                  <h3 class="display text-[11px] tracking-[0.14em] mb-1.5">{b.title}</h3>
+                  <h3 class="text-[11px] font-semibold tracking-[0.14em] uppercase mb-1.5">{b.title}</h3>
                   {b.href
-                    ? <a href={b.href} class="block text-[13px] text-gray-800 hover:text-gold transition-colors">{b.value}</a>
+                    ? <a href={b.href} class="block text-[13px] text-gray-800 hover:text-accent-deep transition-colors">{b.value}</a>
                     : <p class="text-[13px] text-gray-800">{b.value}</p>}
                   <p class="text-[11px] text-gray-500 mt-1">{b.note}</p>
                 </div>
               </div>
             ))}
-
-            <div class="flex items-start gap-3.5 py-5 last:pb-0">
-              <span class="w-10 h-10 rounded-full bg-dark flex items-center justify-center shrink-0">
-                <Icon name="share" size={18} class="text-gold" stroke={1.5} />
-              </span>
-              <div>
-                <h3 class="display text-[11px] tracking-[0.14em] mb-3">Síguenos</h3>
-                <div class="flex items-center gap-2.5">
-                  <a href="#" class="w-9 h-9 rounded-full bg-dark flex items-center justify-center text-gold hover:bg-gold hover:text-white transition-all duration-300" aria-label="Facebook">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-                  </a>
-                  <a href="#" class="w-9 h-9 rounded-full bg-dark flex items-center justify-center text-gold hover:bg-gold hover:text-white transition-all duration-300" aria-label="Instagram">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                  </a>
-                  <a href="#" class="w-9 h-9 rounded-full bg-dark flex items-center justify-center text-gold hover:bg-gold hover:text-white transition-all duration-300" aria-label="LinkedIn">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg>
-                  </a>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -124,14 +135,14 @@ const infoBlocks = [
         <div class="reveal-right reveal-delay-2 lg:col-span-4 flex flex-col gap-6">
           <div>
             <div class="flex items-center gap-3 mb-3">
-              <Icon name="pin" size={24} class="text-gold shrink-0" stroke={1.3} />
+              <Icon name="pin" size={24} class="text-accent-deep shrink-0" stroke={1.3} />
               <h2 class="display display-sm">Nuestra ubicación</h2>
             </div>
-            <div class="gold-line-sm mb-6"></div>
+            <div class="rule-sm mb-6"></div>
             <div class="rounded-sm border border-black/8 overflow-hidden">
               <iframe
-                title="Ubicación de AHH Construcción en Chihuahua"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-106.11%2C28.62%2C-106.03%2C28.68&layer=mapnik&marker=28.6353%2C-106.0889"
+                title={`Ubicación de AHH Construcción y Remodelación en ${contact.colonia}, Chihuahua`}
+                src={`https://www.openstreetmap.org/export/embed.html?bbox=${mapBbox}&layer=mapnik&marker=${mapMarker}`}
                 width="100%"
                 height="288"
                 loading="lazy"
@@ -142,14 +153,14 @@ const infoBlocks = [
 
           <div class="bg-dark noise p-7">
             <div class="relative flex items-start gap-4 mb-5">
-              <Icon name="calendar" size={28} class="text-gold shrink-0 mt-0.5" stroke={1.3} />
+              <Icon name="calendar" size={28} class="text-sand shrink-0 mt-0.5" stroke={1.3} />
               <div>
-                <h3 class="display text-[13px] tracking-[0.1em] text-white mb-1.5">¿Prefieres una reunión?</h3>
-                <p class="text-xs text-gray-400 leading-relaxed">Agenda una cita en nuestras oficinas y platiquemos en persona.</p>
+                <h3 class="text-[13px] font-semibold tracking-[0.1em] uppercase text-white mb-1.5">Visita sin costo</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">Vamos a tu domicilio a ver el proyecto antes de cotizar.</p>
               </div>
             </div>
-            <a href={contact.whatsapp} target="_blank" rel="noopener" class="btn-primary !py-3 !px-5 !text-[11px] relative">
-              Agendar cita
+            <a href={primaryCta} {...ctaProps} class="btn-primary !py-3 !px-5 !text-[11px] relative">
+              Agendar visita
               <Icon name="arrow" size={14} stroke={2} />
             </a>
           </div>
@@ -160,17 +171,17 @@ const infoBlocks = [
   </section>
 
   <!-- Closing band -->
-  <section class="bg-surface pb-16 lg:pb-20">
+  <section class="bg-bone pb-16 lg:pb-20">
     <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
       <div class="hero reveal">
         <div class="hero-media dim" style="background-image:url('/img/cta-band.jpg')"></div>
         <div class="relative px-8 py-10 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
-          <Icon name="home" size={40} class="text-gold shrink-0" stroke={1.2} />
+          <Icon name="home" size={40} class="text-sand shrink-0" stroke={1.2} />
           <div class="text-center lg:text-left">
-            <h2 class="display display-sm text-white mb-2">Vamos a construir algo grande</h2>
-            <p class="text-sm text-gray-400">Juntos podemos hacer realidad el proyecto que tienes en mente.</p>
+            <h2 class="display display-sm text-white mb-2">Construyamos tu proyecto</h2>
+            <p class="text-sm text-gray-400">Grande o pequeño, lo vemos contigo y te decimos qué cuesta.</p>
           </div>
-          <a href={contact.whatsapp} target="_blank" rel="noopener" class="btn-primary shrink-0">
+          <a href={primaryCta} {...ctaProps} class="btn-primary shrink-0">
             Cotiza tu proyecto
             <Icon name="arrow" size={16} stroke={2} />
           </a>
@@ -181,3 +192,66 @@ const infoBlocks = [
 
   <Footer slot="footer" variant="compact" legal={true} />
 </Layout>
+
+<style>
+  /* Sin esto, saltar aquí con #formulario deja el título tapado bajo la
+     barra fija: el navegador alinea el borde superior del objetivo con
+     el viewport, y esa franja la ocupa el header. */
+  #formulario {
+    scroll-margin-top: 130px;
+  }
+</style>
+
+<script>
+  import { services } from '../data/site';
+
+  function initContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    if (!form || form.dataset.bound) return;
+    form.dataset.bound = 'true';
+
+    const status = document.getElementById('contact-form-status');
+    const whatsapp = form.dataset.whatsapp || '';
+    const serviceTitles = new Map(services.map(s => [s.slug, s.title]));
+
+    const showStatus = (text: string) => {
+      if (!status) return;
+      status.textContent = text;
+      status.classList.remove('hidden');
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // No hay backend: nunca dejamos que el navegador haga un GET a esta
+      // misma URL con los campos como query string (recarga, pierde lo
+      // escrito, no avisa nada).
+      if (!form.reportValidity()) return;
+
+      const data = new FormData(form);
+      const nombre = String(data.get('nombre') || '').trim();
+      const telefono = String(data.get('telefono') || '').trim();
+      const correo = String(data.get('correo') || '').trim();
+      const tipo = serviceTitles.get(String(data.get('tipo') || '')) || '';
+      const mensaje = String(data.get('mensaje') || '').trim();
+
+      if (whatsapp) {
+        const lines = [
+          `Hola, soy ${nombre}.`,
+          tipo && `Proyecto: ${tipo}.`,
+          mensaje,
+          `Tel: ${telefono}`,
+          correo && `Correo: ${correo}`,
+        ].filter(Boolean);
+        window.open(`${whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+        showStatus('Se abrió WhatsApp con tu mensaje. Si no se abrió, escríbenos directo.');
+        form.reset();
+      } else {
+        // Bloqueado: aún no hay un número real cargado en site.ts. Avisamos
+        // en vez de fingir un envío que no va a ningún lado.
+        showStatus('Por ahora no tenemos un canal de envío activo en la web. Contáctanos con los datos de la derecha.');
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initContactForm);
+</script>
