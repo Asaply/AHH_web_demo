@@ -7,7 +7,9 @@ import PropertyCard from '../components/PropertyCard.astro';
 import { properties } from '../data/site';
 
 const delays = ['', 'reveal-delay-1', 'reveal-delay-2'];
-const count = properties.length;
+const available = properties.filter(p => p.status !== 'vendido');
+const sold = properties.filter(p => p.status === 'vendido');
+const count = available.length;
 ---
 
 <Layout title="Propiedades en venta — AHH Construcción y Remodelación">
@@ -51,29 +53,20 @@ const count = properties.length;
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {properties.map((p, i) => <PropertyCard property={p} variant="full" delay={delays[i]} />)}
+        {available.map((p, i) => <PropertyCard property={p} delay={delays[i % 3]} />)}
       </div>
 
-      {properties.map(p => (
-        <div class="reveal card mt-8 p-8">
-          <h3 class="display display-sm mb-6">Distribución — {p.name}</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            {p.distribution.map(level => (
-              <div>
-                <p class="eyebrow mb-4">{level.floor}</p>
-                <ul class="check-list space-y-2.5">
-                  {level.rooms.map(room => (
-                    <li>
-                      <Icon name="check" size={15} class="text-accent-deep shrink-0 mt-0.5" stroke={2.2} />
-                      {room}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+      {sold.length > 0 && (
+        <>
+          <div class="reveal mt-20 mb-12">
+            <p class="eyebrow mb-4">Ya tienen dueño</p>
+            <h2 class="heading">Vendidas recientemente</h2>
           </div>
-        </div>
-      ))}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {sold.map((p, i) => <PropertyCard property={p} delay={delays[i % 3]} />)}
+          </div>
+        </>
+      )}
 
       <!-- Inline CTA -->
       <div class="reveal bg-sand border border-black/6 mt-10 px-8 py-7 flex flex-col lg:flex-row items-center gap-6">

@@ -1,27 +1,37 @@
 ---
 import Icon from './Icon.astro';
-import type { Property } from '../data/site';
+import { photo, statusLabel, type Property } from '../data/site';
 
 interface Props {
   property: Property;
-  variant?: 'compact' | 'full';
   delay?: string;
 }
-const { property: p, variant = 'compact', delay = '' } = Astro.props;
+const { property: p, delay = '' } = Astro.props;
 
-// Foto genérica mientras no haya fotos reales de la propiedad — nunca el
-// degradado plano de .media a secas.
-const image = p.image || '/img/propiedad-generica.jpg';
-const detailHref = `/propiedades#${p.slug}`;
+// Sin fotos reales se queda el marcador de .media: una foto de archivo haría
+// pasar por suya una casa que no es.
+const image = photo(p, 1, true);
+const sold = p.status === 'vendido';
+const href = `/propiedades/${p.slug}`;
 ---
 
-<article id={variant === 'full' ? p.slug : undefined} class={`card reveal ${delay} flex flex-col scroll-mt-[var(--nav-h)]`}>
-  <div class="media h-56 sm:h-60" style={`background-image:url('${image}')`}>
-    <span class="tag">En venta</span>
-  </div>
+<article class={`card reveal ${delay} flex flex-col`}>
+  <a href={href} class="block overflow-hidden" aria-label={`Ver ficha de ${p.name}`}>
+    <div class="media h-56 sm:h-60" style={image ? `background-image:url('${image}')` : undefined}>
+      <span class:list={['tag', sold && 'tag-dark text-white']}>{statusLabel[p.status]}</span>
+      {!image && (
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-sand/70">
+          <Icon name={p.kind === 'terreno' ? 'area' : 'home'} size={40} stroke={1.1} />
+          <span class="text-[11px] tracking-[0.14em] uppercase">Fotos próximamente</span>
+        </div>
+      )}
+    </div>
+  </a>
 
   <div class="p-6 flex flex-col flex-1">
-    <h3 class={variant === 'full' ? 'display display-sm mb-2' : 'text-lg font-semibold mb-2'}>{p.name}</h3>
+    <h3 class="display display-sm mb-2">
+      <a href={href} class="hover:text-accent-deep transition-colors">{p.name}</a>
+    </h3>
 
     <p class="flex items-center gap-2 text-sm text-gray-500 mb-5">
       <Icon name="pin" size={16} class="text-accent-deep shrink-0" />
@@ -29,30 +39,24 @@ const detailHref = `/propiedades#${p.slug}`;
     </p>
 
     <div class="flex items-center gap-4 sm:gap-5 text-sm text-gray-600 py-4 border-y border-black/6">
-      <span class="flex items-center gap-1.5"><Icon name="bed" size={17} class="text-gray-400" />{p.beds}</span>
-      <span class="flex items-center gap-1.5"><Icon name="bath" size={17} class="text-gray-400" />{p.baths}</span>
-      <span class="flex items-center gap-1.5"><Icon name="area" size={17} class="text-gray-400" />{p.builtArea} m²</span>
+      {p.kind === 'casa' ? (
+        <>
+          <span class="flex items-center gap-1.5" title="Recámaras"><Icon name="bed" size={17} class="text-gray-400" />{p.beds}</span>
+          <span class="flex items-center gap-1.5" title="Baños"><Icon name="bath" size={17} class="text-gray-400" />{p.baths}</span>
+          <span class="flex items-center gap-1.5" title="Construcción"><Icon name="area" size={17} class="text-gray-400" />{p.builtArea} m²</span>
+        </>
+      ) : (
+        <span class="flex items-center gap-1.5" title="Terreno"><Icon name="area" size={17} class="text-gray-400" />{p.landArea.toLocaleString('es-MX')} m² de terreno</span>
+      )}
     </div>
 
-    {variant === 'full' && (
-      <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-        <dt class="text-gray-500">Terreno</dt>
-        <dd class="text-right font-medium">{p.landArea} m²</dd>
-        <dt class="text-gray-500">Construcción</dt>
-        <dd class="text-right font-medium">{p.builtArea} m²</dd>
-      </dl>
-    )}
-
-    <div class="mt-5 flex items-end justify-between gap-4 flex-wrap">
+    <div class="mt-auto pt-5 flex items-end justify-between gap-4 flex-wrap">
       <div>
-        <p class="text-xs text-gray-500 mb-1">{p.note}</p>
-        <p class="display display-sm">{p.price}</p>
+        <p class="text-xs text-gray-500 mb-1">{sold ? 'Obra entregada' : 'Trato directo'}</p>
+        <p class="display display-sm">{sold ? 'Vendida' : p.price}</p>
       </div>
-      <a
-        href={variant === 'full' ? '/contacto' : detailHref}
-        class="btn-outline !py-2.5 !px-5 !text-[11px]"
-      >
-        Ver detalles
+      <a href={href} class="btn-outline !py-2.5 !px-5 !text-[11px]">
+        Ver ficha
         <Icon name="arrow" size={14} stroke={2} />
       </a>
     </div>

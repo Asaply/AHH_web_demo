@@ -1,0 +1,356 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Icon from '../../components/Icon.astro';
+import PropertyCard from '../../components/PropertyCard.astro';
+import { properties, photo, statusLabel, visitsWhatsapp, type Property } from '../../data/site';
+
+export function getStaticPaths() {
+  return properties.map(property => ({ params: { slug: property.slug }, props: { property } }));
+}
+
+const { property: p } = Astro.props as { property: Property };
+const sold = p.status === 'vendido';
+const photos = Array.from({ length: p.photoCount }, (_, i) => ({
+  full: photo(p, i + 1),
+  small: photo(p, i + 1, true),
+}));
+const cover = photos[0]?.full;
+
+const m2 = (n: number) => `${n.toLocaleString('es-MX')} m²`;
+const baths = (n: number) => {
+  const full = Math.floor(n);
+  return n % 1 ? `${full} + ½` : String(full);
+};
+
+const facts = [
+  { icon: 'area', label: 'Terreno', value: m2(p.landArea) },
+  p.builtArea && { icon: 'home', label: 'Construcción', value: m2(p.builtArea) },
+  p.beds && { icon: 'bed', label: 'Recámaras', value: String(p.beds) },
+  p.baths && { icon: 'bath', label: 'Baños', value: baths(p.baths) },
+  p.floors && { icon: 'buildings', label: p.floors === 1 ? 'Planta' : 'Plantas', value: String(p.floors) },
+  p.parking && { icon: 'car', label: 'Cochera', value: `${p.parking} autos` },
+  p.frontage && { icon: 'blueprint', label: 'Frente', value: p.frontage },
+  p.depth && { icon: 'blueprint', label: 'Fondo', value: p.depth },
+].filter(Boolean) as { icon: string; label: string; value: string }[];
+
+const message = `Hola, me interesa la propiedad "${p.name}" (${p.price}). ¿Podemos agendar una visita?`;
+const whatsappHref = `https://wa.me/${visitsWhatsapp}?text=${encodeURIComponent(message)}`;
+
+const others = properties.filter(o => o.slug !== p.slug && o.status !== 'vendido').slice(0, 3);
+const delays = ['', 'reveal-delay-1', 'reveal-delay-2'];
+---
+
+<Layout title={`${p.name} — ${sold ? 'Vendida' : p.price} · AHH Construcción`} description={p.summary}>
+  <Header slot="header" activePage="Propiedades" />
+
+  <!-- Hero -->
+  <section data-nav-theme="dark" class="hero">
+    {cover && <div class="hero-media dim" style={`background-image:url('${cover}')`}></div>}
+    <div class="relative max-w-[88rem] mx-auto px-6 lg:px-10 py-16 lg:py-20">
+      <nav class="reveal flex items-center gap-2 text-sm mb-6">
+        <a href="/" class="text-white/70 hover:text-white transition-colors">Inicio</a>
+        <span class="text-white/30">&rsaquo;</span>
+        <a href="/propiedades" class="text-white/70 hover:text-white transition-colors">Propiedades</a>
+        <span class="text-white/30">&rsaquo;</span>
+        <span class="text-sand">{p.name}</span>
+      </nav>
+
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+        <div class="max-w-2xl">
+          <span class:list={['reveal inline-block tag !static mb-5', sold && 'tag-dark text-white border border-white/20']}>
+            {statusLabel[p.status]}
+          </span>
+          <h1 class="reveal reveal-delay-1 display display-lg text-white mb-4">{p.name}</h1>
+          <p class="reveal reveal-delay-2 flex items-center gap-2 text-gray-300">
+            <Icon name="pin" size={18} class="text-sand shrink-0" />
+            {p.address ?? p.location}
+          </p>
+        </div>
+
+        <div class="reveal reveal-delay-3 bg-dark/85 border border-white/10 px-8 py-6 self-start lg:self-auto">
+          <p class="text-[11px] text-gray-400 tracking-[0.14em] uppercase mb-2">{sold ? 'Estatus' : 'Precio'}</p>
+          <p class="display text-2xl lg:text-3xl text-white leading-none">{sold ? 'Vendida' : p.price}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bone py-12 lg:py-16">
+    <div class="max-w-[88rem] mx-auto px-6 lg:px-10">
+
+      <!-- Galería -->
+      {photos.length > 0 ? (
+        <div class="reveal grid grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-2 sm:gap-3 rounded-[14px] overflow-hidden mb-12 lg:h-[34rem]">
+          {photos.slice(0, 5).map((ph, i) => (
+            <button
+              type="button"
+              data-gallery-open={i}
+              class:list={[
+                'media group relative cursor-zoom-in',
+                i === 0 ? 'col-span-2 lg:row-span-2 h-64 sm:h-80 lg:h-auto' : 'h-32 sm:h-44 lg:h-auto',
+              ]}
+              style={`background-image:url('${i === 0 ? ph.full : ph.small}')`}
+              aria-label={`Ver foto ${i + 1} de ${photos.length}`}
+            >
+              {i === 4 && photos.length > 5 && (
+                <span class="absolute inset-0 bg-dark/60 flex items-center justify-center text-white text-sm font-medium tracking-wide">
+                  +{photos.length - 5} fotos
+                </span>
+              )}
+              <span class="absolute inset-0 bg-dark/0 group-hover:bg-dark/15 transition-colors"></span>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div class="reveal media rounded-[14px] h-56 sm:h-72 mb-12 flex flex-col items-center justify-center gap-3 text-sand/70">
+          <Icon name={p.kind === 'terreno' ? 'area' : 'home'} size={48} stroke={1.1} />
+          <span class="text-xs tracking-[0.14em] uppercase">Fotos próximamente</span>
+        </div>
+      )}
+
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_24rem] gap-10 lg:gap-14 items-start">
+
+        <!-- Ficha -->
+        <div class="space-y-8 min-w-0">
+          <div class="reveal">
+            <p class="eyebrow mb-4">Ficha de la propiedad</p>
+            <p class="text-lg leading-relaxed text-gray-700">{p.summary}</p>
+          </div>
+
+          <div class="reveal card !transform-none p-6 sm:p-8">
+            <dl class="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-7">
+              {facts.map(f => (
+                <div>
+                  <dt class="flex items-center gap-2 text-[11px] text-gray-500 tracking-[0.12em] uppercase mb-2">
+                    <Icon name={f.icon} size={16} class="text-accent-deep shrink-0" />
+                    {f.label}
+                  </dt>
+                  <dd class="display text-lg">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          {p.distribution.length > 0 && (
+            <div class="reveal card !transform-none p-6 sm:p-8">
+              <h2 class="display display-sm mb-6">Distribución</h2>
+              <div class:list={['grid grid-cols-1 gap-8', p.distribution.length > 1 && 'sm:grid-cols-2 lg:grid-cols-3']}>
+                {p.distribution.map(level => (
+                  <div>
+                    <p class="eyebrow mb-4">{level.floor}</p>
+                    <ul class:list={['check-list space-y-2.5', p.distribution.length === 1 && 'sm:columns-2 sm:gap-8']}>
+                      {level.rooms.map(room => (
+                        <li class="break-inside-avoid">
+                          <Icon name="check" size={15} class="text-accent-deep shrink-0 mt-0.5" stroke={2.2} />
+                          {room}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div class="reveal bg-dark noise rounded-[14px] p-6 sm:p-8">
+            <h2 class="display display-sm text-white mb-6">{p.kind === 'terreno' ? 'Ventajas' : 'Por qué esta casa'}</h2>
+            <ul class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {p.highlights.map((h, i) => (
+                <li class="border-t border-accent/40 pt-4">
+                  <span class="display text-accent text-sm">0{i + 1}</span>
+                  <p class="text-gray-200 text-sm leading-relaxed mt-2">{h}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="reveal card !transform-none p-6 sm:p-8">
+            <h2 class="display display-sm mb-6">{p.kind === 'terreno' ? 'Características' : 'Acabados y equipamiento'}</h2>
+            <dl class="divide-y divide-black/6">
+              {p.finishes.map(f => (
+                <div class="grid grid-cols-[8rem_1fr] sm:grid-cols-[10rem_1fr] gap-4 py-3.5 text-sm">
+                  <dt class="text-gray-500">{f.label}</dt>
+                  <dd class="font-medium">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+
+        <!-- Lateral -->
+        <aside class="reveal reveal-delay-1 lg:sticky lg:top-[calc(var(--nav-h)+1.5rem)] space-y-5">
+          <div class="card !transform-none p-6 sm:p-7">
+            {sold ? (
+              <>
+                <p class="eyebrow mb-3">Obra entregada</p>
+                <h2 class="display display-sm mb-3">Esta casa ya tiene dueño</h2>
+                <p class="text-sm text-gray-600 leading-relaxed mb-6">
+                  La construimos nosotros. Si te gusta, podemos levantar una igual —o a tu medida— en tu terreno.
+                </p>
+                <a href="/contacto" class="btn-dark w-full justify-center">
+                  Quiero una casa así
+                  <Icon name="arrow" size={16} stroke={2} />
+                </a>
+              </>
+            ) : (
+              <>
+                <p class="text-[11px] text-gray-500 tracking-[0.14em] uppercase mb-1">Precio</p>
+                <p class="display text-3xl mb-6">{p.price}</p>
+
+                <dl class="space-y-3 text-sm mb-7">
+                  {p.terms.map(t => (
+                    <div class="flex gap-3">
+                      <Icon name="check" size={15} class="text-accent-deep shrink-0 mt-0.5" stroke={2.2} />
+                      <div>
+                        <dt class="sr-only">{t.label}</dt>
+                        <dd class="text-gray-700">{t.value}</dd>
+                      </div>
+                    </div>
+                  ))}
+                </dl>
+
+                <a href={whatsappHref} target="_blank" rel="noopener" class="btn-primary w-full justify-center mb-3">
+                  Agendar visita por WhatsApp
+                  <Icon name="chat" size={16} stroke={2} />
+                </a>
+                {p.mapUrl && (
+                  <a href={p.mapUrl} target="_blank" rel="noopener" class="btn-outline w-full justify-center">
+                    Ver ubicación
+                    <Icon name="pin" size={16} stroke={2} />
+                  </a>
+                )}
+              </>
+            )}
+          </div>
+
+          <a href="/propiedades" class="link-accent">
+            <Icon name="arrow" size={16} stroke={2} class="rotate-180" />
+            Todas las propiedades
+          </a>
+        </aside>
+      </div>
+
+      {others.length > 0 && (
+        <div class="mt-20">
+          <div class="reveal mb-10">
+            <p class="eyebrow mb-4">También en venta</p>
+            <h2 class="heading">Otras propiedades</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {others.map((o, i) => <PropertyCard property={o} delay={delays[i]} />)}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Visor de fotos -->
+  {photos.length > 0 && (
+    <dialog id="gallery" class="gallery" data-photos={JSON.stringify(photos.map(ph => ph.full))} aria-label={`Fotos de ${p.name}`}>
+      <img src="" alt="" class="gallery-img" />
+      <p class="gallery-count"></p>
+      <button type="button" class="gallery-btn gallery-close" data-gallery-close aria-label="Cerrar"><Icon name="close" size={22} stroke={1.8} /></button>
+      <button type="button" class="gallery-btn gallery-prev" data-gallery-step="-1" aria-label="Foto anterior"><Icon name="arrow" size={22} stroke={1.8} class="rotate-180" /></button>
+      <button type="button" class="gallery-btn gallery-next" data-gallery-step="1" aria-label="Foto siguiente"><Icon name="arrow" size={22} stroke={1.8} /></button>
+    </dialog>
+  )}
+
+  <Footer slot="footer" variant="compact" />
+</Layout>
+
+<style>
+  .gallery {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgba(12, 16, 20, 0.96);
+  }
+  .gallery[open] { display: flex; align-items: center; justify-content: center; }
+  .gallery::backdrop { background: transparent; }
+  .gallery-img {
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100dvh - 7rem);
+    object-fit: contain;
+    border-radius: 6px;
+  }
+  .gallery-count {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+  }
+  .gallery-btn {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    transition: background 0.2s;
+  }
+  .gallery-btn:hover { background: rgba(255, 255, 255, 0.18); }
+  .gallery-close { top: 1rem; right: 1rem; }
+  .gallery-prev { left: 1rem; top: 50%; transform: translateY(-50%); }
+  .gallery-next { right: 1rem; top: 50%; transform: translateY(-50%); }
+  @media (max-width: 640px) {
+    .gallery-prev, .gallery-next { top: auto; bottom: 0.75rem; transform: none; }
+  }
+</style>
+
+<script>
+  function initGallery() {
+    const dialog = document.getElementById('gallery') as HTMLDialogElement | null;
+    if (!dialog || dialog.dataset.bound) return;
+    dialog.dataset.bound = 'true';
+
+    const photos: string[] = JSON.parse(dialog.dataset.photos || '[]');
+    const img = dialog.querySelector<HTMLImageElement>('.gallery-img')!;
+    const count = dialog.querySelector<HTMLElement>('.gallery-count')!;
+    let current = 0;
+
+    const show = (i: number) => {
+      current = (i + photos.length) % photos.length;
+      img.src = photos[current];
+      img.alt = `Foto ${current + 1} de ${photos.length}`;
+      count.textContent = `${current + 1} / ${photos.length}`;
+    };
+
+    document.querySelectorAll<HTMLElement>('[data-gallery-open]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        show(Number(btn.dataset.galleryOpen));
+        dialog.showModal();
+      });
+    });
+    dialog.querySelectorAll<HTMLElement>('[data-gallery-step]').forEach(btn => {
+      btn.addEventListener('click', () => show(current + Number(btn.dataset.galleryStep)));
+    });
+    dialog.querySelector('[data-gallery-close]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') show(current + 1);
+      if (e.key === 'ArrowLeft') show(current - 1);
+    });
+
+    // Deslizar en celular
+    let startX = 0;
+    dialog.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    dialog.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+    });
+  }
+
+  document.addEventListener('astro:page-load', initGallery);
+</script>

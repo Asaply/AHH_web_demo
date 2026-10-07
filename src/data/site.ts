@@ -184,40 +184,200 @@ export const catalog: { num: string; title: string; items: string[] }[] = [
   },
 ];
 
+export type PropertyStatus = 'disponible' | 'apartado' | 'vendido';
+
 export type Property = {
   slug: string;
   name: string;
+  kind: 'casa' | 'terreno';
+  status: PropertyStatus;
   location: string;
-  type: string;
-  beds: number;
-  baths: number;
-  landArea: number;
-  builtArea: number;
+  /* Solo se publica la dirección cuando la ficha la trae y la propiedad sigue
+     a la venta; la de una casa vendida ya es de otra familia. */
+  address?: string;
+  mapUrl?: string;
   price: string;
-  note: string;
+  summary: string;
+  landArea: number;
+  builtArea?: number;
+  beds?: number;
+  baths?: number;
+  floors?: number;
+  parking?: number;
+  /* Medidas tal como vienen en la ficha: algunos terrenos son irregulares. */
+  frontage?: string;
+  depth?: string;
   distribution: { floor: string; rooms: string[] }[];
-  image: string;
+  highlights: string[];
+  finishes: { label: string; value: string }[];
+  terms: { label: string; value: string }[];
+  /* Carpeta en /img con 01.jpg, 01-sm.jpg, … Cero fotos = marcador. */
+  photoDir?: string;
+  photoCount: number;
 };
+
+/* Datos de las fichas comerciales que llenó el cliente (Downloads/…/AHH_Ficha_*.docx).
+   Los campos marcados USO INTERNO (precio mínimo, gravamen, observaciones) no
+   se publican. */
+const brickHighlights = [
+  'Construcción 100% de ladrillo rojo, térmica',
+  'Losa sólida de concreto',
+  'Alumbrado inteligente compatible con Alexa y Google',
+];
+
+const houseTerms = [
+  { label: 'Crédito', value: 'Se acepta todo tipo de crédito bancario' },
+  { label: 'Permuta', value: 'Se acepta intercambio' },
+  { label: 'Trato', value: 'Directo con el constructor' },
+  { label: 'Visitas', value: 'Con cita, cualquier día y hora (1 día de anticipación)' },
+];
 
 export const properties: Property[] = [
   {
-    slug: 'casa-cittanova',
-    name: 'Casa en Fraccionamiento Cittanova',
-    location: 'Fracc. Cittanova, Chihuahua',
-    type: 'casa',
-    beds: 3,
-    baths: 2.5,
+    slug: 'casa-cittanova-1',
+    name: 'Casa en Cittanova I',
+    kind: 'casa',
+    status: 'disponible',
+    location: 'Fracc. Cittanova I, Chihuahua',
+    mapUrl: 'https://maps.apple/p/rwbSnzztpsU.FT',
+    price: '$2,390,000 MXN',
+    summary: 'Casa de dos plantas con tres recámaras, estancia y cochera para dos autos, construida 100% en ladrillo rojo.',
     landArea: 127.05,
     builtArea: 118.13,
-    price: '$2,390,000 MXN',
-    note: 'Trato directo',
+    beds: 3,
+    baths: 2.5,
+    floors: 2,
+    parking: 2,
     distribution: [
       { floor: 'Planta baja', rooms: ['Sala', 'Comedor', 'Cocina', 'Medio baño', 'Patio'] },
-      { floor: 'Planta alta', rooms: ['3 recámaras', '2 baños completos'] },
+      { floor: 'Planta alta', rooms: ['3 recámaras con clóset', '2 baños completos'] },
+      { floor: 'Además', rooms: ['Estancia', 'Lavandería', 'Cochera para 2 autos'] },
     ],
-    image: '',
+    highlights: brickHighlights,
+    finishes: [
+      { label: 'Pisos', value: 'Porcelanato de 60 × 60' },
+      { label: 'Carpintería', value: 'Clóset en cada recámara y muebles de baño' },
+      { label: 'Ventanería', value: 'Aluminio con vidrio doble' },
+      { label: 'Clima', value: 'Ductos para unidad paquete' },
+      { label: 'Agua', value: 'Tinaco de 1,100 litros' },
+      { label: 'Exterior', value: 'Barda perimetral' },
+    ],
+    terms: houseTerms,
+    photoDir: '/img/propiedades/cittanova-1',
+    photoCount: 10,
+  },
+  {
+    slug: 'casa-alleza-boreal',
+    name: 'Casa Alleza Boreal',
+    kind: 'casa',
+    status: 'disponible',
+    location: 'Fracc. Cittanova I, Chihuahua',
+    mapUrl: 'https://maps.apple/p/XBcmqQB_FgEZ9H',
+    price: '$2,400,000 MXN',
+    summary: 'Casa de dos plantas en lote de 7 × 17.15 m, con tres recámaras, estancia y cochera para dos autos.',
+    landArea: 120.05,
+    builtArea: 100.71,
+    beds: 3,
+    baths: 2.5,
+    floors: 2,
+    parking: 2,
+    frontage: '7 m',
+    depth: '17.15 m',
+    distribution: [
+      { floor: 'Espacios', rooms: ['Sala', 'Comedor', 'Cocina', 'Estancia', '3 recámaras con clóset', '2 baños completos y medio baño', 'Lavandería', 'Patio', 'Cochera para 2 autos'] },
+    ],
+    highlights: brickHighlights,
+    finishes: [
+      { label: 'Pisos', value: 'Porcelanato de 60 × 60' },
+      { label: 'Carpintería', value: 'Clóset en cada recámara y muebles de baño' },
+      { label: 'Ventanería', value: 'Aluminio con vidrio doble' },
+      { label: 'Clima', value: 'Ductos para unidad paquete' },
+      { label: 'Agua', value: 'Tinaco de 1,100 litros' },
+      { label: 'Exterior', value: 'Barda perimetral' },
+    ],
+    terms: houseTerms,
+    photoCount: 0,
+  },
+  {
+    slug: 'terreno-homero',
+    name: 'Terreno en Av. Homero',
+    kind: 'terreno',
+    status: 'disponible',
+    location: 'Col. Francisco Domínguez, Chihuahua',
+    address: 'Av. Homero 12900, Col. Francisco Domínguez, Chihuahua, Chih.',
+    mapUrl: 'https://maps.apple/p/g4QLF_HDq5ZfSJ',
+    price: '$9,500,000 MXN',
+    summary: 'Terreno de 2,432 m² sobre Av. Homero, con uso de suelo mixto, servicios y barda. Listo para escriturar y entrega inmediata.',
+    landArea: 2432,
+    frontage: '75 m en curva',
+    depth: '64.40 m y 80 m',
+    distribution: [],
+    highlights: [
+      'Uso de suelo mixto',
+      'Frente de 75 m sobre Av. Homero',
+      'Listo para escriturar, entrega inmediata',
+    ],
+    finishes: [
+      { label: 'Uso de suelo', value: 'Mixto' },
+      { label: 'Servicios', value: 'Agua, luz y drenaje' },
+      { label: 'Mejoras', value: 'Barda y cercado' },
+      { label: 'Vigilancia', value: 'Velador en sitio' },
+    ],
+    terms: [
+      { label: 'Crédito', value: 'Se acepta todo tipo de crédito' },
+      { label: 'Permuta', value: 'Se acepta intercambio' },
+      { label: 'Escrituración', value: 'Lista para escriturar' },
+      { label: 'Entrega', value: 'Inmediata' },
+      { label: 'Visitas', value: 'Con 1 día de anticipación' },
+    ],
+    photoCount: 0,
+  },
+  {
+    slug: 'casa-los-leones-etapa-4',
+    name: 'Casa en Los Leones IV',
+    kind: 'casa',
+    status: 'vendido',
+    location: 'Residencial Los Leones, etapa 4, Chihuahua',
+    price: '$4,300,000 MXN',
+    summary: 'Casa de una sola planta en terreno de 450 m², con recámara principal con vestidor y cisterna de 5,000 litros.',
+    landArea: 450,
+    builtArea: 235,
+    beds: 3,
+    baths: 2.5,
+    floors: 1,
+    parking: 4,
+    frontage: '15 m',
+    depth: '30 m',
+    distribution: [
+      { floor: 'Una sola planta', rooms: ['Sala', 'Comedor y cocina, muy amplios', 'Estancia', 'Recámara principal con vestidor, clóset y baño propio', '2 recámaras secundarias con clóset', 'Baño completo y medio baño', 'Lavandería con opción a cuarto de blancos', 'Patio amplio', 'Cochera'] },
+    ],
+    highlights: brickHighlights,
+    finishes: [
+      { label: 'Pisos', value: 'Porcelanato de 120 × 60' },
+      { label: 'Carpintería', value: 'Puerta principal, puertas interiores, marcos, zoclo y clóset en las 3 recámaras' },
+      { label: 'Baños', value: 'Muebles con cubierta de mármol' },
+      { label: 'Ventanería', value: 'Aluminio con vidrio doble' },
+      { label: 'Clima', value: 'Ductos para unidad paquete y preparación para minisplit' },
+      { label: 'Agua', value: 'Cisterna de 5,000 litros' },
+    ],
+    terms: houseTerms,
+    photoDir: '/img/propiedades/leones-etapa-4',
+    photoCount: 19,
   },
 ];
+
+export const statusLabel: Record<PropertyStatus, string> = {
+  disponible: 'En venta',
+  apartado: 'Apartada',
+  vendido: 'Vendida',
+};
+
+export const photo = (p: Property, i = 1, small = false) =>
+  p.photoDir && p.photoCount ? `${p.photoDir}/${String(i).padStart(2, '0')}${small ? '-sm' : ''}.jpg` : '';
+
+/* El teléfono que la ficha da para agendar visitas. El número general del
+   sitio (contact.phone) sigue pendiente; este es el de quien enseña las casas. */
+export const visitsWhatsapp = '526145771685';
 
 export type Project = {
   slug: string;
@@ -228,12 +388,11 @@ export type Project = {
   image: string;
 };
 
-/* Las dos casas que el cliente señala como su mejor trabajo. Las fotos reales
-   están pendientes de entrega: con `image` vacío la tarjeta usa el marcador
-   de .media en vez de una foto de archivo que no es suya. */
+/* Fotos profesionales del cliente (Downloads/Fotografia). */
 export const projects: Project[] = [
-  { slug: 'los-leones-1', name: 'Residencia Los Leones I', category: 'residencial', categoryLabel: 'Residencial', location: 'Residencial Los Leones, Chihuahua', image: '' },
-  { slug: 'los-leones-2', name: 'Residencia Los Leones II', category: 'residencial', categoryLabel: 'Residencial', location: 'Residencial Los Leones, Chihuahua', image: '' },
+  { slug: 'los-leones-1', name: 'Residencia Los Leones I', category: 'residencial', categoryLabel: 'Residencial', location: 'Residencial Los Leones, Chihuahua', image: '/img/proyectos/los-leones/01-sm.jpg' },
+  { slug: 'los-leones-2', name: 'Residencia Los Leones II', category: 'residencial', categoryLabel: 'Residencial', location: 'Residencial Los Leones, Chihuahua', image: '/img/propiedades/leones-etapa-4/01-sm.jpg' },
+  { slug: 'reliz', name: 'Casa Reliz', category: 'residencial', categoryLabel: 'Residencial', location: 'Chihuahua', image: '/img/proyectos/reliz/01-sm.jpg' },
 ];
 
 /* Los cuatro pilares del manual de marca. */
