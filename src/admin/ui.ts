@@ -1,0 +1,16 @@
+export const ui = {
+  label: 'block text-sm font-medium text-dark mb-1.5',
+  input: 'w-full rounded-md border border-sand bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent/60 focus:border-accent',
+  inputError: 'border-red-600 focus:ring-red-600/40',
+  hint: 'block mt-1 text-xs text-gray-500',
+  error: 'block mt-1 text-xs text-red-700',
+  card: 'bg-white rounded-xl border border-sand/60 p-5 sm:p-6',
+  h1: 'font-display text-3xl mb-2',
+  h2: 'font-display text-lg mb-4',
+  btn: 'inline-flex items-center justify-center gap-2 rounded-md bg-dark text-white text-sm font-semibold px-4 py-2.5 hover:bg-dark-3 disabled:opacity-40 disabled:cursor-not-allowed',
+  btnGhost: 'inline-flex items-center justify-center gap-2 rounded-md border border-sand bg-white text-sm font-medium px-3 py-2 hover:bg-bone-2 disabled:opacity-40 disabled:cursor-not-allowed',
+  btnDanger: 'inline-flex items-center justify-center gap-2 rounded-md border border-red-300 bg-white text-red-700 text-sm font-medium px-3 py-2 hover:bg-red-50',
+  iconBtn: 'inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-sand bg-white text-sm hover:bg-bone-2 disabled:opacity-30 disabled:cursor-not-allowed',
+  badge: 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold',
+  notice: 'rounded-lg border px-4 py-3 text-sm',
+};
