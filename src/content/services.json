@@ -1,0 +1,62 @@
+[
+  {
+    "num": "01",
+    "slug": "construccion",
+    "title": "Construcción",
+    "summary": "Obra nueva residencial y comercial, de la limpieza del terreno a la entrega.",
+    "short": "Obra nueva residencial y comercial, de principio a fin.",
+    "points": [
+      "Preliminares y movimiento de tierra",
+      "Cimentación y acero de refuerzo",
+      "Estructura, cimbra y losas",
+      "Albañilería y cerramientos"
+    ],
+    "image": "/img/servicio-construccion.jpg",
+    "icon": "home"
+  },
+  {
+    "num": "02",
+    "slug": "remodelacion",
+    "title": "Remodelación",
+    "summary": "Cocinas, baños e interiores completos, con acabados de proveedores reconocidos.",
+    "short": "Cocinas, baños e interiores con acabados de calidad.",
+    "points": [
+      "Cocinas integrales y baños",
+      "Pisos, recubrimientos y pintura",
+      "Carpintería, cancelería y tablaroca",
+      "Yeso y acabados finos"
+    ],
+    "image": "/img/servicio-remodelacion.jpg",
+    "icon": "brush"
+  },
+  {
+    "num": "03",
+    "slug": "ampliaciones",
+    "title": "Ampliaciones",
+    "summary": "El trabajo que más realizamos: crecer tu casa sin mudarte de ella.",
+    "short": "Crecer tu casa sin tener que mudarte.",
+    "points": [
+      "Cuartos y niveles adicionales",
+      "Estructura y losas nuevas",
+      "Techumbres y cubiertas",
+      "Terrazas, cocheras y exteriores"
+    ],
+    "image": "/img/servicio-ampliaciones.jpg",
+    "icon": "blueprint"
+  },
+  {
+    "num": "04",
+    "slug": "mantenimiento",
+    "title": "Mantenimiento y reparaciones",
+    "summary": "Filtraciones, humedad, instalaciones y todo lo que una obra necesita después.",
+    "short": "Filtraciones, humedad, instalaciones y reparaciones.",
+    "points": [
+      "Impermeabilización y filtraciones",
+      "Reparación de grietas y humedad",
+      "Plomería e instalación eléctrica",
+      "Mantenimiento general de inmuebles"
+    ],
+    "image": "/img/servicio-mantenimiento.jpg",
+    "icon": "helmet"
+  }
+]
