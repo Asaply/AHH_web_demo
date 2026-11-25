@@ -378,41 +378,5 @@
       "18",
       "19"
     ]
-  },
-  {
-    "slug": "prueba-e2e-1795577100113",
-    "name": "Prueba E2E 1795577100113",
-    "kind": "casa",
-    "status": "disponible",
-    "location": "Chihuahua",
-    "price": "$1 MXN",
-    "summary": "Propiedad de prueba automática.",
-    "landArea": 100,
-    "distribution": [],
-    "highlights": [],
-    "finishes": [],
-    "terms": [
-      {
-        "label": "Crédito",
-        "value": "Se acepta todo tipo de crédito bancario"
-      },
-      {
-        "label": "Permuta",
-        "value": "Se acepta intercambio"
-      },
-      {
-        "label": "Trato",
-        "value": "Directo con el constructor"
-      },
-      {
-        "label": "Visitas",
-        "value": "Con cita, cualquier día y hora (1 día de anticipación)"
-      }
-    ],
-    "photoDir": "/img/propiedades/prueba-e2e-1795577100113",
-    "photos": [
-      "mwvk8tq5i6l6"
-    ],
-    "hidden": true
   }
 ]
