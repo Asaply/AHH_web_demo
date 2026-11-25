@@ -1,9 +1,90 @@
 ---
 import AdminLayout from '../../layouts/AdminLayout.astro';
+import DeployStatus from '../../admin/components/DeployStatus';
+import { timeAgo } from '../../admin/format';
+import { ui } from '../../admin/ui';
+import { contentFiles } from '../../lib/content-files';
+import type { HistoryEntry } from '../../lib/github';
+import { propertiesSchema, type Property } from '../../lib/schema';
+import { github } from '../../lib/server';
 
 export const prerender = false;
+
+let properties: Property[] = [];
+let history: HistoryEntry[] = [];
+let head = '';
+let loadError = false;
+try {
+  const gh = github();
+  const [file, commits, headSha] = await Promise.all([gh.readJson(contentFiles.properties.path), gh.history('src/content', 10), gh.head()]);
+  properties = propertiesSchema.parse(file.data);
+  history = commits;
+  head = headSha;
+} catch (error) {
+  console.error('[admin] inicio', error);
+  loadError = true;
+}
+
+const visible = properties.filter(p => !p.hidden);
+const counts = [
+  { label: 'En venta', value: visible.filter(p => p.status === 'disponible').length },
+  { label: 'Apartadas', value: visible.filter(p => p.status === 'apartado').length },
+  { label: 'Vendidas', value: visible.filter(p => p.status === 'vendido').length },
+  { label: 'Ocultas', value: properties.length - visible.length },
+];
+const shortcuts = [
+  { href: '/admin/propiedades', title: 'Propiedades', text: 'Precios, estatus, fichas y fotos' },
+  { href: '/admin/propiedades/nueva', title: 'Nueva propiedad', text: 'Publicar una casa o terreno' },
+  { href: '/admin/proyectos', title: 'Proyectos', text: 'Obras entregadas que se muestran' },
+  { href: '/admin/contacto', title: 'Contacto', text: 'Teléfono, WhatsApp, dirección, horario' },
+  { href: '/admin/servicios', title: 'Servicios', text: 'Textos de los cuatro servicios' },
+];
+const firstName = Astro.locals.user?.name.split(' ')[0] ?? '';
 ---
 
 <AdminLayout title="Inicio" active="inicio">
-  <h1 class="font-display text-3xl">Hola, {Astro.locals.user?.name}</h1>
+  <h1 class={ui.h1}>Hola, {firstName}</h1>
+  <p class="text-gray-600 mb-8">Desde aquí actualizas el sitio. Cada cambio se publica solo en 1–2 minutos.</p>
+
+  {loadError && (
+    <p class={`${ui.notice} bg-red-50 border-red-200 text-red-800 mb-6`}>
+      No se pudo leer el contenido. Recarga en un momento; si sigue, avisa al desarrollador.
+    </p>
+  )}
+
+  <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6" aria-label="Propiedades">
+    {counts.map(c => (
+      <a href="/admin/propiedades" class={`${ui.card} block hover:border-accent`}>
+        <p class="font-display text-3xl">{c.value}</p>
+        <p class="text-sm text-gray-600">{c.label}</p>
+      </a>
+    ))}
+  </section>
+
+  {head && <div class="mb-8"><DeployStatus client:load commit={head} /></div>}
+
+  <section class="grid sm:grid-cols-2 gap-3 mb-10">
+    {shortcuts.map(s => (
+      <a href={s.href} class={`${ui.card} block hover:border-accent`}>
+        <p class="font-semibold">{s.title} →</p>
+        <p class="text-sm text-gray-600 mt-1">{s.text}</p>
+      </a>
+    ))}
+  </section>
+
+  <section class={ui.card}>
+    <h2 class={ui.h2}>Últimos cambios</h2>
+    {history.length === 0 ? (
+      <p class="text-sm text-gray-600">Todavía no hay cambios hechos desde el panel.</p>
+    ) : (
+      <ul class="divide-y divide-sand/50">
+        {history.map(h => (
+          <li class="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <span class="text-sm">{h.message.replace(/^Panel:\s*/, '')}</span>
+            <span class="text-xs text-gray-500 shrink-0">{h.author} · {timeAgo(h.date)}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
 </AdminLayout>

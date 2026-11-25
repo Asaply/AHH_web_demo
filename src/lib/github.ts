@@ -54,7 +54,13 @@ export function createGitHub(config: GitHubConfig, fetchImpl: typeof fetch = fet
     return { ...entry, content: file.content };
   }
 
+  const head = async () => (await api<{ object: { sha: string } }>(`/git/ref/heads/${config.branch}`)).object.sha;
+
   return {
+    /* Vercel solo despliega la punta de la rama: el estado del sitio es el de
+       este commit, no el del último que tocó contenido. */
+    head,
+
     async readJson(path: string): Promise<{ data: unknown; sha: string }> {
       const file = await api<{ content: string; sha: string }>(contents(path, config.branch));
       return { data: JSON.parse(Buffer.from(file.content, 'base64').toString('utf8')), sha: file.sha };
@@ -75,16 +81,16 @@ export function createGitHub(config: GitHubConfig, fetchImpl: typeof fetch = fet
       guard?: { path: string; sha: string };
     }): Promise<string> {
       for (let attempt = 0; ; attempt++) {
-        const head = (await api<{ object: { sha: string } }>(`/git/ref/heads/${config.branch}`)).object.sha;
-        if (options.guard && (await fileSha(options.guard.path, head)) !== options.guard.sha) throw new ConflictError();
-        const baseTree = (await api<{ tree: { sha: string } }>(`/git/commits/${head}`)).tree.sha;
+        const parent = await head();
+        if (options.guard && (await fileSha(options.guard.path, parent)) !== options.guard.sha) throw new ConflictError();
+        const baseTree = (await api<{ tree: { sha: string } }>(`/git/commits/${parent}`)).tree.sha;
         const tree = await api<{ sha: string }>('/git/trees', {
           method: 'POST',
           body: { base_tree: baseTree, tree: options.files.map(treeEntry) },
         });
         const created = await api<{ sha: string }>('/git/commits', {
           method: 'POST',
-          body: { message: options.message, tree: tree.sha, parents: [head], author: options.author },
+          body: { message: options.message, tree: tree.sha, parents: [parent], author: options.author },
         });
         try {
           await api(`/git/refs/heads/${config.branch}`, { method: 'PATCH', body: { sha: created.sha, force: false } });

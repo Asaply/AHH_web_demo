@@ -98,6 +98,13 @@ describe('commit', () => {
   });
 });
 
+describe('head', () => {
+  it('devuelve el último commit de la rama', async () => {
+    const { gh } = fakeGitHub({ 'GET /git/ref/heads/main': () => ({ json: { object: { sha: 'h9' } } }) });
+    expect(await gh.head()).toBe('h9');
+  });
+});
+
 describe('deployState', () => {
   const withStatus = (state?: string) => fakeGitHub({
     'GET /deployments?sha=c1&per_page=5': () => ({ json: state === undefined ? [] : [{ id: 7 }] }),
