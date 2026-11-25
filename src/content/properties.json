@@ -273,7 +273,8 @@
       }
     ],
     "photoDir": "/img/propiedades/terreno-homero",
-    "photos": []
+    "photos": [],
+    "hidden": true
   },
   {
     "slug": "casa-los-leones-etapa-4",
