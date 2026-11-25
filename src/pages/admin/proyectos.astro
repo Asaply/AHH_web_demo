@@ -1,0 +1,16 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import ProjectsEditor from '../../admin/components/ProjectsEditor';
+import { contentFiles } from '../../lib/content-files';
+import { projectsSchema, propertiesSchema } from '../../lib/schema';
+import { github, rawBaseUrl } from '../../lib/server';
+
+export const prerender = false;
+
+const gh = github();
+const [file, propertiesFile] = await Promise.all([gh.readJson(contentFiles.projects.path), gh.readJson(contentFiles.properties.path)]);
+---
+
+<AdminLayout title="Proyectos" active="proyectos">
+  <ProjectsEditor client:load initial={projectsSchema.parse(file.data)} sha={file.sha} properties={propertiesSchema.parse(propertiesFile.data)} rawBase={rawBaseUrl()} />
+</AdminLayout>
