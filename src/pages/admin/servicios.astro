@@ -1,0 +1,15 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import ServicesEditor from '../../admin/components/ServicesEditor';
+import { contentFiles } from '../../lib/content-files';
+import { servicesSchema } from '../../lib/schema';
+import { github } from '../../lib/server';
+
+export const prerender = false;
+
+const file = await github().readJson(contentFiles.services.path);
+---
+
+<AdminLayout title="Servicios" active="servicios">
+  <ServicesEditor client:load initial={servicesSchema.parse(file.data)} sha={file.sha} />
+</AdminLayout>
