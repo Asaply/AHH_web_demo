@@ -1,5 +1,6 @@
 import { useState } from 'preact/hooks';
-import { photoUrl, type Project, type Property } from '../../lib/schema';
+import { photoUrl } from '../../lib/content-utils';
+import type { Project, Property } from '../../lib/schema';
 import { uploadPhoto } from '../api';
 import { errorFor, move, newPhotoName, slugify } from '../format';
 import { preparePhoto } from '../image';

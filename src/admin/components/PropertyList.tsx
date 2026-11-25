@@ -1,4 +1,5 @@
-import { photoUrl, statusLabel, type Property } from '../../lib/schema';
+import { photoUrl, statusLabel } from '../../lib/content-utils';
+import type { Property } from '../../lib/schema';
 import { move } from '../format';
 import { ui } from '../ui';
 import { useEditor } from '../useEditor';

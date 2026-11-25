@@ -1,4 +1,5 @@
-import { photoUrl, type Property } from '../lib/schema';
+import { photoUrl } from '../lib/content-utils';
+import type { Property } from '../lib/schema';
 
 export type PendingPhoto = { state: 'processing' } | { state: 'ready'; fullSha: string; smallSha: string; preview: string };
 

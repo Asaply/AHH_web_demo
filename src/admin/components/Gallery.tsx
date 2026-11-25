@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks';
-import { photoUrl } from '../../lib/schema';
+import { photoUrl } from '../../lib/content-utils';
 import { move } from '../format';
 import type { PendingPhoto } from '../property';
 import { ui } from '../ui';

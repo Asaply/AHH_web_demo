@@ -105,16 +105,4 @@ export type Project = z.infer<typeof projectSchema>;
 export type Settings = z.infer<typeof settingsSchema>;
 export type Service = z.infer<typeof serviceSchema>;
 
-export const statusLabel: Record<PropertyStatus, string> = {
-  disponible: 'En venta',
-  apartado: 'Apartada',
-  vendido: 'Vendida',
-};
-
-export const categoryLabels: Record<Project['category'], string> = {
-  residencial: 'Residencial',
-  comercial: 'Comercial',
-  remodelacion: 'Remodelación',
-};
-
-export const photoUrl = (dir: string, name: string, small = false) => `${dir}/${name}${small ? '-sm' : ''}.jpg`;
+export { categoryLabels, photoUrl, statusLabel } from './content-utils';
