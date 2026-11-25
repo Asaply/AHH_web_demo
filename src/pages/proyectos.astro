@@ -74,6 +74,12 @@ const delays = ['', 'reveal-delay-1', 'reveal-delay-2'];
                   <Icon name="pin" size={16} class="text-accent-deep shrink-0" />
                   {p.location}
                 </p>
+                {p.href && (
+                  <a href={p.href} class="flex items-center gap-1.5 text-sm font-semibold text-accent-deep shrink-0 hover:underline">
+                    En venta
+                    <Icon name="arrow" size={14} stroke={2} />
+                  </a>
+                )}
               </div>
             </div>
           </article>

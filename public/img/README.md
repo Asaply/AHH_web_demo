@@ -18,15 +18,22 @@ muestra el degradado oscuro de `.media` / `.hero-media` en su lugar (sin errores
 - servicio-ampliaciones.jpg
 - servicio-mantenimiento.jpg
 
+## Fotos de obra propia
+
+Viven en `propiedades/<slug>/` y `proyectos/<slug>/` como `01.jpg` (1800 px lado
+largo) + `01-sm.jpg` (720 px), y se registran en `src/data/site.ts` con
+`photoDir` / `photoCount`. Originales en Drive › Ahh Constructura › Fotografia
+(copia local en `content/`, fuera de git).
+
+- Casa Alleza Boreal → `propiedades/alleza-boreal/` (23 de 37; las últimas 5
+  son áreas comunes del fraccionamiento). La carpeta se llamaba "Reliz".
+- Residencia Los Leones I → `proyectos/los-leones/` (Drive › Fotografia › Leones)
+
 ## Pendientes de entrega del cliente
 
-Estas rutas están vacías a propósito en `src/data/site.ts`: usar foto de archivo
-para obra propia sería presentar trabajo ajeno como de AHH. En cuanto lleguen las
-fotos reales, se agregan aquí y se rellena el campo `image`.
-
-- Casa en Fraccionamiento Cittanova (4:3, mín. 1000×750)
-- Residencia Los Leones I y II (4:3, mín. 1000×750)
-- Set de antes/después de remodelaciones
+- Fotos del Terreno en Av. Homero (solo hay un plano escaneado)
+- Video `casa_leones.mp4` (Drive › Video › Leones, 965 MB: comprimir antes de usar)
+- Set de antes/después de remodelaciones con calidad para web
 
 ## Sin uso actual
 

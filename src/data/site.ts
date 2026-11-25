@@ -296,7 +296,10 @@ export const properties: Property[] = [
       { label: 'Exterior', value: 'Barda perimetral' },
     ],
     terms: houseTerms,
-    photoCount: 0,
+    /* Fotos profesionales (Drive › Fotografia › Boreal). Las últimas cinco son
+       áreas comunes del fraccionamiento. */
+    photoDir: '/img/propiedades/alleza-boreal',
+    photoCount: 23,
   },
   {
     slug: 'terreno-homero',
@@ -386,13 +389,16 @@ export type Project = {
   categoryLabel: string;
   location: string;
   image: string;
+  /* Ficha de la propiedad cuando la obra sigue a la venta. */
+  href?: string;
 };
 
-/* Fotos profesionales del cliente (Downloads/Fotografia). */
+/* Fotos profesionales del cliente (Drive › Fotografia). La carpeta que antes se
+   llamaba "Reliz" es la Casa Alleza Boreal: mismos 37 archivos, renombrada. */
 export const projects: Project[] = [
   { slug: 'los-leones-1', name: 'Residencia Los Leones I', category: 'residencial', categoryLabel: 'Residencial', location: 'Residencial Los Leones, Chihuahua', image: '/img/proyectos/los-leones/01-sm.jpg' },
   { slug: 'los-leones-2', name: 'Residencia Los Leones II', category: 'residencial', categoryLabel: 'Residencial', location: 'Residencial Los Leones, Chihuahua', image: '/img/propiedades/leones-etapa-4/01-sm.jpg' },
-  { slug: 'reliz', name: 'Casa Reliz', category: 'residencial', categoryLabel: 'Residencial', location: 'Chihuahua', image: '/img/proyectos/reliz/01-sm.jpg' },
+  { slug: 'alleza-boreal', name: 'Casa Alleza Boreal', category: 'residencial', categoryLabel: 'Residencial', location: 'Fracc. Cittanova I, Chihuahua', image: '/img/propiedades/alleza-boreal/01-sm.jpg', href: '/propiedades/casa-alleza-boreal' },
 ];
 
 /* Los cuatro pilares del manual de marca. */
