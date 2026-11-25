@@ -1,43 +1,44 @@
-# Astro Starter Kit: Minimal
+# AHH Construcción y Remodelación — sitio web
+
+Astro 7 + Tailwind 4, publicado en Vercel. El contenido editable (propiedades,
+proyectos, contacto, servicios) vive en `src/content/*.json` y se edita desde el
+panel `/admin`.
+
+## Desarrollo
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+cp .env.example .env     # ver "Panel" abajo
+astro dev --background   # http://localhost:4321
+npm test                 # unitarias (vitest)
+npm run test:e2e         # E2E del panel: requiere dev server y E2E_EMAIL / E2E_PASSWORD
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+En local el panel escribe en la rama `admin-sandbox` (`GITHUB_BRANCH` en `.env`),
+nunca en `main`.
 
-## 🚀 Project Structure
+## Panel /admin
 
-Inside of your Astro project, you'll see the following folders and files:
+Cada guardado hace un commit en GitHub (`Panel: …`) y Vercel publica en 1–2 min.
+Si un build falla, Vercel deja la versión anterior en línea. Los datos se validan
+con los mismos schemas (`src/lib/schema.ts`) en el panel y al compilar.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Variables (Vercel → Settings → Environment Variables):
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+| Variable | Valor |
+|---|---|
+| `ADMIN_USERS` | `[{"email","name","hash"}, …]`. Cada entrada sale de `npm run admin:user -- correo "Nombre"` |
+| `SESSION_SECRET` | `node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"`. Cambiarlo cierra todas las sesiones |
+| `GITHUB_TOKEN` | Token fine-grained: solo `Asaply/AHH_web_demo`; Contents read/write, Deployments read |
+| `GITHUB_REPO` | `Asaply/AHH_web_demo` |
+| `GITHUB_BRANCH` | `main` en Production; `admin-sandbox` en Preview y local |
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Agregar o quitar usuarios = editar `ADMIN_USERS` y redeploy. Quitar a alguien
+  corta su acceso aunque tenga sesión abierta.
+- Contraseña olvidada: generar un hash nuevo con `npm run admin:user`.
+- Deshacer un cambio del panel: `git revert <sha>` del commit `Panel: …` y push.
+- El repo es público: el panel no guarda los campos de uso interno de las fichas
+  (precio mínimo, gravamen, observaciones), y el autor de sus commits usa el
+  correo `panel@ahh-construccion.invalid`.
+- Lo que el panel no edita (catálogo de servicios, valores, proceso, imágenes de
+  hero y servicios, video) sigue en `src/data/site.ts` y `public/`.

@@ -55,7 +55,7 @@ Los datos editables salen de `src/data/site.ts` a `src/content/`:
 |---|---|
 | `properties.json` | Lista ordenada de propiedades (el orden del archivo es el del sitio) |
 | `projects.json` | Lista ordenada de proyectos realizados |
-| `settings.json` | `brand` (nombre, eslogan, años de experiencia), `contact` (teléfono, WhatsApp de visitas, dirección, horario, cobertura) y `socials` |
+| `settings.json` | `brand` (nombre, eslogan, años de experiencia) y `contact` (teléfono, WhatsApp de visitas, dirección, horario, cobertura). `socials` se queda en `site.ts`: ningún componente lo pinta todavía |
 | `services.json` | Los 4 servicios: título, resumen, texto corto, puntos. `slug`, `icon` e `image` no se editan |
 
 - `src/lib/schema.ts` define los schemas zod (`astro/zod`) **compartidos** por el
@@ -122,7 +122,7 @@ Comportamiento común:
 | `GET /admin/api/content/:name` | Devuelve `{ data, sha }` del JSON desde GitHub |
 | `PUT /admin/api/content/:name` | `{ data, baseSha, photos: { add: [{path, blobSha}], remove: [path] }, summary }` → valida, revisa conflicto y hace **un solo commit** |
 | `POST /admin/api/photo` | Recibe un JPEG (binario), crea un blob en GitHub y devuelve `{ blobSha }` |
-| `GET /admin/api/status?sha=` | Estado del deploy de ese commit (deployments de GitHub que publica Vercel) |
+| `GET /admin/api/status?sha=` | Estado del deploy de ese commit (deployments de GitHub que publica Vercel). El inicio consulta el HEAD de la rama, porque Vercel solo despliega la punta |
 | `GET /admin/api/history` | Últimos 10 commits que tocan `src/content/` (todo guardado del panel cambia algún JSON, incluso si solo mueve fotos) |
 
 ### Flujo de guardado
@@ -138,7 +138,9 @@ Comportamiento común:
    fotos agregadas por `blobSha` y fotos borradas con `sha: null`), luego crea el
    commit y actualiza `refs/heads/<branch>` sin force. Si el ref se movió entre
    medio, reintenta una vez sobre el nuevo HEAD.
-5. Mensaje del commit en español, con el usuario como autor, por ejemplo:
+5. Mensaje del commit en español. El autor es el nombre del usuario con el correo
+   `panel@ahh-construccion.invalid`, para no publicar el correo del cliente en un
+   repo público. Por ejemplo:
    `Panel: Casa Alleza Boreal — precio, estatus, 3 fotos nuevas`.
 
 La foto que se sube a un proyecto va a `/img/proyectos/<slug>/<nombre>.jpg` y `-sm.jpg`, y `image` guarda la ruta `-sm`.

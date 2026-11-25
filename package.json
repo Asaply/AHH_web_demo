@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
-    "admin:user": "node scripts/admin-user.ts"
+    "admin:user": "node scripts/admin-user.ts",
+    "test:e2e": "node tests/e2e/admin.e2e.mjs"
   },
   "dependencies": {
     "@astrojs/preact": "^6.1.6",
