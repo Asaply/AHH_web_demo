@@ -27,3 +27,5 @@ screenshots/
 
 # Material fuente del cliente (fichas, fotos originales, logos): pesado y con datos privados
 /content/
+.env*
+!.env.example
