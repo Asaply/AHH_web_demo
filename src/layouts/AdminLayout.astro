@@ -1,0 +1,85 @@
+---
+import '../styles/global.css';
+
+type Section = 'inicio' | 'propiedades' | 'proyectos' | 'contacto' | 'servicios';
+interface Props {
+  title: string;
+  active?: Section;
+}
+
+const { title, active } = Astro.props;
+const user = Astro.locals.user;
+const nav: { id: Section; href: string; label: string }[] = [
+  { id: 'inicio', href: '/admin', label: 'Inicio' },
+  { id: 'propiedades', href: '/admin/propiedades', label: 'Propiedades' },
+  { id: 'proyectos', href: '/admin/proyectos', label: 'Proyectos' },
+  { id: 'contacto', href: '/admin/contacto', label: 'Contacto' },
+  { id: 'servicios', href: '/admin/servicios', label: 'Servicios' },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <title>{title} · Panel AHH</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-bone text-dark font-sans antialiased min-h-screen">
+    {user ? (
+      <div class="lg:flex min-h-screen">
+        <aside class="bg-dark text-white lg:w-60 lg:fixed lg:inset-y-0 flex lg:flex-col">
+          <div class="flex items-center justify-between w-full lg:block px-4 py-3 lg:px-6 lg:py-6">
+            <a href="/admin" class="block">
+              <img src="/logo/logo-horizontal-negativo.png" alt="AHH" class="h-8 lg:h-10 w-auto" />
+              <span class="hidden lg:block text-[11px] tracking-[0.14em] uppercase text-sand/70 mt-2">Panel</span>
+            </a>
+            <button id="admin-logout" type="button" class="lg:hidden text-sm text-sand underline">Salir</button>
+          </div>
+          <nav class="hidden lg:flex flex-col gap-1 px-3 flex-1" aria-label="Panel">
+            {nav.map(item => (
+              <a
+                href={item.href}
+                aria-current={active === item.id ? 'page' : undefined}
+                class:list={['rounded-md px-3 py-2 text-sm', active === item.id ? 'bg-dark-3 text-white font-semibold' : 'text-sand hover:bg-dark-2']}
+              >{item.label}</a>
+            ))}
+          </nav>
+          <div class="hidden lg:block px-6 py-6 text-sm border-t border-dark-3">
+            <p class="text-sand/80 truncate">{user.name}</p>
+            <a href="/" target="_blank" rel="noopener" class="block text-sand hover:text-white mt-3">Ver sitio ↗</a>
+            <button id="admin-logout-desktop" type="button" class="text-sand hover:text-white mt-2">Salir</button>
+          </div>
+        </aside>
+        <nav class="lg:hidden flex gap-1 overflow-x-auto bg-dark-2 px-2 py-2" aria-label="Panel">
+          {nav.map(item => (
+            <a
+              href={item.href}
+              aria-current={active === item.id ? 'page' : undefined}
+              class:list={['shrink-0 rounded-md px-3 py-1.5 text-sm', active === item.id ? 'bg-dark-3 text-white font-semibold' : 'text-sand']}
+            >{item.label}</a>
+          ))}
+        </nav>
+        <main class="flex-1 lg:ml-60 px-4 sm:px-6 lg:px-10 py-6 lg:py-10 pb-32">
+          <div class="max-w-4xl"><slot /></div>
+        </main>
+      </div>
+    ) : (
+      <slot />
+    )}
+
+    <script>
+      for (const id of ['admin-logout', 'admin-logout-desktop']) {
+        document.getElementById(id)?.addEventListener('click', async () => {
+          await fetch('/admin/api/logout', { method: 'POST' });
+          location.href = '/admin/login';
+        });
+      }
+    </script>
+  </body>
+</html>

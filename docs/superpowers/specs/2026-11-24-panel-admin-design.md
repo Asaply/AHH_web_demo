@@ -150,7 +150,7 @@ fotos usadas por un proyecto no se borran: el panel avisa.
 
 - **Usuarios:** variable `ADMIN_USERS` con un arreglo JSON
   `[{ "email", "name", "hash" }]`. El hash es scrypt (`node:crypto`, sin
-  dependencias) con formato `scrypt$N$r$p$salt$hash`. El script
+  dependencias) con formato `scrypt:N:r:p:salt:hash` (sin `$`, que dotenv-expand interpretaría como variable). El script
   `npm run admin:user` pide la contraseña sin mostrarla y genera la entrada.
 - **Sesión:** cookie `ahh_admin` = `base64url(payload).hmac-sha256` con
   `SESSION_SECRET`; el payload es `{ email, exp }`. Dura 7 días, con atributos

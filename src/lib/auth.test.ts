@@ -9,13 +9,17 @@ describe('contraseñas', () => {
     expect(verifyPassword('otra-contraseña', stored)).toBe(false);
   });
 
+  it('no usa "$" (dotenv-expand lo trataría como variable)', () => {
+    expect(stored).toMatch(/^scrypt:16384:8:1:[\w-]+:[\w-]+$/);
+  });
+
   it('usa sal distinta en cada hash', () => {
     expect(hashPassword('x'.repeat(12))).not.toBe(hashPassword('x'.repeat(12)));
   });
 
   it('rechaza hashes mal formados sin lanzar', () => {
     expect(verifyPassword('a', 'texto')).toBe(false);
-    expect(verifyPassword('a', 'scrypt$abc$8$1$c2FsdA$aGFzaA')).toBe(false);
+    expect(verifyPassword('a', 'scrypt:abc:8:1:c2FsdA:aGFzaA')).toBe(false);
   });
 });
 

@@ -2,7 +2,8 @@ import { createHmac, randomBytes, scryptSync, timingSafeEqual } from 'node:crypt
 import { z } from 'astro/zod';
 
 /* Solo sintaxis TS borrable: scripts/admin-user.ts importa este archivo con
-   `node` directo. */
+   `node` directo. El hash usa ":" como separador y no "$": dotenv-expand
+   interpreta "$algo" como variable y corrompe el hash dentro de un .env. */
 
 export type AdminUser = { email: string; name: string; hash: string };
 
@@ -15,11 +16,11 @@ const KEY_LENGTH = 32;
 export function hashPassword(password: string): string {
   const salt = randomBytes(16);
   const key = scryptSync(password, salt, KEY_LENGTH, SCRYPT);
-  return ['scrypt', SCRYPT.N, SCRYPT.r, SCRYPT.p, salt.toString('base64url'), key.toString('base64url')].join('$');
+  return ['scrypt', SCRYPT.N, SCRYPT.r, SCRYPT.p, salt.toString('base64url'), key.toString('base64url')].join(':');
 }
 
 export function verifyPassword(password: string, stored: string): boolean {
-  const [scheme, n, r, p, salt, key] = stored.split('$');
+  const [scheme, n, r, p, salt, key] = stored.split(':');
   if (scheme !== 'scrypt' || !salt || !key) return false;
   try {
     const expected = Buffer.from(key, 'base64url');
@@ -35,7 +36,7 @@ export function verifyPassword(password: string, stored: string): boolean {
 }
 
 const usersSchema = z.array(
-  z.object({ email: z.email(), name: z.string().min(1), hash: z.string().startsWith('scrypt$') }),
+  z.object({ email: z.email(), name: z.string().min(1), hash: z.string().startsWith('scrypt:') }),
 );
 
 export function parseUsers(raw: string): AdminUser[] {

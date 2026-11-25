@@ -1,0 +1,9 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+
+export const prerender = false;
+---
+
+<AdminLayout title="Inicio" active="inicio">
+  <h1 class="font-display text-3xl">Hola, {Astro.locals.user?.name}</h1>
+</AdminLayout>
