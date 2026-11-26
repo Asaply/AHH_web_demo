@@ -203,8 +203,6 @@ const ctaProps = contact.hasPhone
 </style>
 
 <script>
-  import { services } from '../data/site';
-
   function initContactForm() {
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     if (!form || form.dataset.bound) return;
@@ -212,7 +210,6 @@ const ctaProps = contact.hasPhone
 
     const status = document.getElementById('contact-form-status');
     const whatsapp = form.dataset.whatsapp || '';
-    const serviceTitles = new Map(services.map(s => [s.slug, s.title]));
 
     const showStatus = (text: string) => {
       if (!status) return;
@@ -231,7 +228,10 @@ const ctaProps = contact.hasPhone
       const nombre = String(data.get('nombre') || '').trim();
       const telefono = String(data.get('telefono') || '').trim();
       const correo = String(data.get('correo') || '').trim();
-      const tipo = serviceTitles.get(String(data.get('tipo') || '')) || '';
+      // El título sale del texto de la opción: importar site.ts aquí metería
+      // zod y todo el contenido al bundle del navegador.
+      const option = (form.elements.namedItem('tipo') as HTMLSelectElement | null)?.selectedOptions[0];
+      const tipo = option && option.value && option.value !== 'otro' ? option.textContent?.trim() ?? '' : '';
       const mensaje = String(data.get('mensaje') || '').trim();
 
       if (whatsapp) {

@@ -1,0 +1,15 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import SettingsEditor from '../../admin/components/SettingsEditor';
+import { contentFiles } from '../../lib/content-files';
+import { settingsSchema } from '../../lib/schema';
+import { github } from '../../lib/server';
+
+export const prerender = false;
+
+const file = await github().readJson(contentFiles.settings.path);
+---
+
+<AdminLayout title="Contacto" active="contacto">
+  <SettingsEditor client:load initial={settingsSchema.parse(file.data)} sha={file.sha} />
+</AdminLayout>

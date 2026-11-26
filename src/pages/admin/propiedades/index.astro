@@ -1,0 +1,16 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import PropertyList from '../../../admin/components/PropertyList';
+import { contentFiles } from '../../../lib/content-files';
+import { propertiesSchema } from '../../../lib/schema';
+import { github, rawBaseUrl } from '../../../lib/server';
+
+export const prerender = false;
+
+const file = await github().readJson(contentFiles.properties.path);
+const properties = propertiesSchema.parse(file.data);
+---
+
+<AdminLayout title="Propiedades" active="propiedades">
+  <PropertyList client:load initial={properties} sha={file.sha} rawBase={rawBaseUrl()} />
+</AdminLayout>

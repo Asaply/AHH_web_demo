@@ -1,0 +1,24 @@
+[
+  {
+    "slug": "los-leones-1",
+    "name": "Residencia Los Leones I",
+    "category": "residencial",
+    "location": "Residencial Los Leones, Chihuahua",
+    "image": "/img/proyectos/los-leones/01-sm.jpg"
+  },
+  {
+    "slug": "los-leones-2",
+    "name": "Residencia Los Leones II",
+    "category": "residencial",
+    "location": "Residencial Los Leones, Chihuahua",
+    "image": "/img/propiedades/leones-etapa-4/01-sm.jpg"
+  },
+  {
+    "slug": "alleza-boreal",
+    "name": "Casa Alleza Boreal",
+    "category": "residencial",
+    "location": "Fracc. Cittanova I, Chihuahua",
+    "image": "/img/propiedades/alleza-boreal/01-sm.jpg",
+    "property": "casa-alleza-boreal"
+  }
+]

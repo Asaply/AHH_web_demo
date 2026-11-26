@@ -1,0 +1,60 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+
+export const prerender = false;
+
+const next = Astro.url.searchParams.get('next') ?? '';
+const safeNext = /^\/admin(\/[a-z0-9/-]*)?$/.test(next) ? next : '/admin';
+---
+
+<AdminLayout title="Entrar">
+  <div class="min-h-screen flex items-center justify-center px-4 py-10">
+    <form id="login-form" data-next={safeNext} class="w-full max-w-sm bg-white rounded-xl border border-sand/60 p-8 space-y-5" novalidate>
+      <img src="/logo/logo-horizontal.png" alt="AHH Construcción y Remodelación" class="h-10 w-auto" />
+      <div>
+        <h1 class="font-display text-2xl">Panel de administración</h1>
+        <p class="text-sm text-gray-600 mt-1">Entra con tu correo y contraseña.</p>
+      </div>
+      <label class="block">
+        <span class="block text-sm font-medium mb-1.5">Correo</span>
+        <input name="email" type="email" autocomplete="username" required class="w-full rounded-md border border-sand px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/60" />
+      </label>
+      <label class="block">
+        <span class="block text-sm font-medium mb-1.5">Contraseña</span>
+        <input name="password" type="password" autocomplete="current-password" required class="w-full rounded-md border border-sand px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/60" />
+      </label>
+      <p id="login-error" role="alert" class="text-sm text-red-700 hidden"></p>
+      <button type="submit" class="w-full rounded-md bg-dark text-white font-semibold py-3 hover:bg-dark-3 disabled:opacity-50">Entrar</button>
+    </form>
+  </div>
+</AdminLayout>
+
+<script>
+  const form = document.getElementById('login-form') as HTMLFormElement;
+  const error = document.getElementById('login-error') as HTMLParagraphElement;
+  const button = form.querySelector('button') as HTMLButtonElement;
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    button.disabled = true;
+    error.classList.add('hidden');
+    try {
+      const res = await fetch('/admin/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: data.get('email'), password: data.get('password') }),
+      });
+      if (res.ok) {
+        location.href = form.dataset.next || '/admin';
+        return;
+      }
+      const body = await res.json().catch(() => ({}));
+      error.textContent = body.error ?? 'No se pudo entrar. Intenta de nuevo.';
+    } catch {
+      error.textContent = 'Sin conexión. Revisa tu internet e intenta de nuevo.';
+    }
+    error.classList.remove('hidden');
+    button.disabled = false;
+  });
+</script>

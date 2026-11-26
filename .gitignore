@@ -1,5 +1,6 @@
 # build output
 dist/
+.vercel/
 # generated types
 .astro/
 
@@ -25,4 +26,6 @@ pnpm-debug.log*
 screenshots/
 
 # Material fuente del cliente (fichas, fotos originales, logos): pesado y con datos privados
-content/
+/content/
+.env*
+!.env.example
